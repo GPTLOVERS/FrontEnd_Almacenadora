@@ -83,7 +83,16 @@
   .forgot-password {
     color: #42A5F5;
     cursor: pointer;
-  }
+    position: relative;
+    right: -32%  ;
+    }
+
+    .create-account {
+      color: #42A5F5;
+      cursor: pointer;
+      position: relative;
+      right: -25%  ;
+      }
   
   .sign-in-button {
     background-color:#42A5F5;

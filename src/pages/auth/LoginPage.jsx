@@ -27,7 +27,7 @@ const LoginPage = () => {
               </Stack>
               <Button className="sign-in-button">Iniciar Sesión</Button>
             </Stack>
-            <Text className="forgot-password">Olvidé la contraseña</Text>
+            <Text className="create-account">¿No tienes una cuenta?, créala</Text>
           </Stack>
         </Box>
       </Stack>
