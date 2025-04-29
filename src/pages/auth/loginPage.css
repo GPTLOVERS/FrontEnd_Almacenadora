@@ -1,3 +1,11 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7fafc;
+}
+
 .flex-container {
     min-height: 100vh;
     display: flex;
@@ -12,10 +20,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: #0570eb4d;
   }
   
   .heading-container {
     text-align: center;
+
   }
   
   .heading-title {
@@ -33,10 +43,11 @@
   
   .box-container {
     border-radius: 0.375rem;
-    width: 100%;
-    background-color: var(--chakra-colors-white); 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    width: 150%;
+    background-color: white; 
+    box-shadow: 2px 8px 6px rgba(0, 0, 0, 0.5);
     padding: 2rem;
+    width: 350px;
   }
   
   .form-stack {
@@ -46,7 +57,7 @@
   }
   
   .form-label {
-    font-size: 0.875rem; /* sm */
+    font-size: 0.875rem; 
     font-weight: bold;
     position: relative;
     right: -7%;
@@ -54,9 +65,10 @@
   
   .input-field {
     padding: 0.75rem;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #080808;
     border-radius: 0.375rem;
-    width: 80%;
+    max-width: 330px;
+    width: 100%;
   }
   
   .input-field:focus {
