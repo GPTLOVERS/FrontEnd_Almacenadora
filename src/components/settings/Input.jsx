@@ -60,7 +60,7 @@ Input.propTypes = {
     showErrorMessage: PropTypes.bool.isRequired,
     validationMessage: PropTypes.string.isRequired,
     onBlurHandler: PropTypes.func.isRequired,
-    className: PropTypes.string, // Cambiado de classname a className
+    className: PropTypes.string, 
     textArea: PropTypes.bool,
 };
 

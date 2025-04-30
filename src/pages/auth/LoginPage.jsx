@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Login } from "../../components/settings/Login";
+import { Login, Register } from "../../components/settings";
 import { Flex } from "@chakra-ui/react";
 import "./loginPage.css";
 
@@ -15,7 +15,7 @@ export const LoginPage  = () => {
       {isLogin ? (
         <Login switchAuthHandler={handleLoginPageToggle} />
       ) : (
-        <Login switchAuthHandler={handleLoginPageToggle} />
+        <Register switchAuthHandler={handleLoginPageToggle} />
       )}
     </Flex>
   );
