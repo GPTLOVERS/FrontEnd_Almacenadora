@@ -18,7 +18,7 @@ export const useRegister = () => {
                 password,
                 phone
             });
-            console.log(response);  // Agrega esto para ver la respuesta completa
+            console.log(response);  
             setIsLoading(false);
     
             if (response?.status >= 200 && response?.status < 300) {
