@@ -13,7 +13,6 @@ import "../../pages/auth/loginPage.css";
 
 export const Login = ({ switchAuthHandler }) => {
     const { login, isLoading } = useLogin();
-
     const [formState, setFormState] = useState({
         email: {
             value: "",

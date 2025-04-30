@@ -43,3 +43,27 @@ export const register = async (data) => {
         }
     }
 }
+
+export const getProveedor = async () => {
+    try {
+        const response = await apiClient.get("proveedores/getProveedores");
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || 'Error desconocido',
+        };
+    }
+};
+
+export const getProveedorById = async (id) => {
+    try {
+        const response = await apiClient.get(`proveedores/getProveedorById/${id}`);
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || "Error desconocido",
+        };
+    }
+};  
