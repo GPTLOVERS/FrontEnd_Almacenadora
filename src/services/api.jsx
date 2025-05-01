@@ -1,4 +1,4 @@
-import axios  from 'axios';
+import axios from 'axios';
 
 const apiClient = axios.create({
     baseURL: "http://127.0.0.1:3005/salesManager/v1",
@@ -10,23 +10,23 @@ apiClient.interceptors.request.use(
     (config) => {
         const userDetails = localStorage.getItem("user")
 
-        if(userDetails){
+        if (userDetails) {
             const token = JSON.parse(userDetails).token
             config.headers.Authorization = `Bearer ${token}`
         }
         return config
 
     },
-    (e) =>{
+    (e) => {
         return Promise.reject(e)
     }
 )
 
-export const login = async(data) => {
-    try{
+export const login = async (data) => {
+    try {
         return await apiClient.post("/auth/login", data)
-    }catch(e){
-        return{
+    } catch (e) {
+        return {
             error: true,
             e
         }
@@ -34,10 +34,10 @@ export const login = async(data) => {
 }
 
 export const register = async (data) => {
-    try{
+    try {
         return await apiClient.post('/auth/register', data)
-    }catch(e){
-        return{
+    } catch (e) {
+        return {
             error: true,
             e
         }
@@ -66,27 +66,58 @@ export const getProveedorById = async (id) => {
             message: e.response ? e.response.data.message : e.message || "Error desconocido",
         };
     }
-};  
+};
 
 export const registerProveedor = async (data) => {
-    try{
+    try {
         return await apiClient.post('/proveedores/createProveedor', data)
-    }catch(e){
-        return{
+    } catch (e) {
+        return {
             error: true,
             e
         }
     }
 }
 
-export const updateProveedor = async (data,id) => {
-    try{
+export const updateProveedor = async (data, id) => {
+    try {
         return await apiClient.put(`/proveedores/updateProveedor/${id}`, data)
-    }catch(e){
-        return{
+    } catch (e) {
+        return {
             error: true,
             e
         }
     }
 }
 
+export const reports = async (option) => {
+    try {
+        return await apiClient.post("/report/generateAndSaveGraphImage", option);
+    } catch (e) {
+        return { error: true, e };
+    }
+};
+
+export const getDowloadInventory = async () => {
+    try {
+        const response = await apiClient.post(`/report/generateInventoryReport`);
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || "Error desconocido",
+        };
+    }
+};
+
+export const getDowloadMovments = async () => {
+    try {
+        const response = await apiClient.post(`/report/generateInventoryMovementsReport`);
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || "Error desconocido",
+        };
+    }
+};
