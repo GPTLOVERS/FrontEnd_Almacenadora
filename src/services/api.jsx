@@ -112,7 +112,7 @@ export const getDowloadInventory = async () => {
 
 export const getDowloadMovments = async () => {
     try {
-        const response = await apiClient.post(`/report/generateInventoryMovementsReport`);
+        const response = await apiClient.post(`/report/generateInventoryReport`);
         return response.data;
     } catch (e) {
         return {
