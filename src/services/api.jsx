@@ -89,3 +89,4 @@ export const updateProveedor = async (data,id) => {
         }
     }
 }
+

@@ -47,6 +47,7 @@ export const Navbar = () => {
     const handleGoToVerProveedores = () => navigate("/proveedores/dashboard");
     const handleGoToRegistrarProveedores = () => navigate("/proveedores/register");
     const handleGoToEditarProveedores = () => navigate("/proveedores/update");
+    const handleGoToBuscarProveedores = () => navigate("/proveedores/find");
     const handleGoToVerProductos = () => navigate("/verProductos");
     const handleGoToRegistrarProductos = () => navigate("/agregarProductos");
     const handleGoToEditarProductos = () => navigate("/EditarProductos");
@@ -80,6 +81,7 @@ export const Navbar = () => {
                                         <span onClick={handleGoToVerProveedores}>Ver Proveedores</span>
                                         <span onClick={handleGoToRegistrarProveedores}>Agregar Proveedores</span>
                                         <span onClick={handleGoToEditarProveedores}>Editar Proveedores</span>
+                                        <span onClick={handleGoToBuscarProveedores}>Buscar Proveedores</span>
                                     </div>
                                 )}
                             </div>
