@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import useGetProveedor from "../../shared/hooks/useGetProveedor";
 import "./proveedor.css";
-
+import Navbar from "../navs/Navbar";
 const ProveedorDetalle = () => {
     const { id } = useParams(); 
     const { proveedor, loading, error } = useGetProveedor(id);
@@ -12,6 +12,8 @@ const ProveedorDetalle = () => {
     if (!proveedor) return <p className="error-text">No se encontró el proveedor.</p>;
 
     return (
+        <>
+        <Navbar/>
         <div className="proveedor-detalle-container">
             <h1 className="proveedor-title">Detalles del Proveedor</h1>
             <div className="proveedor-info">
@@ -29,6 +31,7 @@ const ProveedorDetalle = () => {
                 ))}
             </ul>
         </div>
+        </>
     );
 };
 
