@@ -9,20 +9,26 @@ import UpdateProveedor from "./components/proveedores/UpdateProveedor";
 import BuscarProveedor from "./components/proveedores/FindProveedor";
 import ProtectedRoute from "./components/settings/ProtectedRoute";
 import Unauthorized from "./components/settings/Unauthorized";
+import ImageOfReport from "./components/reports/ImageOfReport";
+import { Movements } from "./components/reports/Movements";
 
 export const routes = [
     { path: "/auth", element: <LoginPage /> },
     { path: "/*", element: <Dashboard /> },
     { path: "/proveedores", element: <DashboardProveedores /> },
     { path: "/proveedores/dashboard", element: <DashboardPro/> },
-    { path: "/proveedores/:id", element: <ProtectedRoute allowedRoles={"admin"}>
+    { path: "/proveedores/:id", element: <ProtectedRoute allowedRoles={"ADMIN_ROLE"}>
         <ProveedorDetalle/>
     </ProtectedRoute> },
-    { path: "/proveedores/register", element: <ProtectedRoute allowedRoles={"admin"}>
-    <RegisterProveedor/>
-</ProtectedRoute> },
+    { path: "/proveedores/register", element: <RegisterProveedor/>},
     { path: `/proveedores/update/:id` , element: <RegisterProveedor/> },
     { path: `/proveedores/update` , element: <UpdateProveedor/> },
     { path: `/proveedores/find` , element: <BuscarProveedor/> },
+    { path: "/stats", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE","EMPLOYEE_ROLE"]}>
+        <ImageOfReport/>
+    </ProtectedRoute> },
+    { path: "/movements", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE","EMPLOYEE_ROLE"]}>
+    <Movements/>
+    </ProtectedRoute> },
     { path: `/unauthorized` , element: <Unauthorized/> }
 ];

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserDetails } from '../../shared/hooks';
 import PropTypes from 'prop-types';
+import useDownloadInventory from '../../pages/reports/ReportDashboard';
+
 
 const NavButton = ({ text, onClickHandler }) => (
     <span className='nav-button' onClick={onClickHandler}>{text}</span>
@@ -14,27 +16,26 @@ NavButton.propTypes = {
 
 export const Navbar = () => {
     const { isLogged, logout } = useUserDetails();
+    const { download } = useDownloadInventory();
     const navigate = useNavigate();
 
-    // Estado para controlar si el menú está abierto o cerrado
     const [isDropdownOpen, setIsDropdownOpen] = useState({
         producto: false,
         proveedores: false,
-        cuenta: false
+        cuenta: false,
+        stats: false
     });
 
-    // Función para alternar el estado de apertura/cierre de los menús
     const toggleDropdown = (menu) => {
         setIsDropdownOpen((prevState) => ({
             ...prevState,
-            [menu]: true  // Abre el menú al hacer clic
+            [menu]: true 
         }));
 
-        // Cierra el menú automáticamente después de 3 segundos
         setTimeout(() => {
             setIsDropdownOpen((prevState) => ({
                 ...prevState,
-                [menu]: false  // Cierra el menú después de 3 segundos
+                [menu]: false 
             }));
         }, 3000);
     };
@@ -44,6 +45,8 @@ export const Navbar = () => {
     const handleGoToHome = () => navigate("/");
     const handleGoToProfile = () => navigate("/profile");
     const handleGoToStats = () => navigate("/stats");
+    const handleDowloadInventory = async () => {await download();};
+    const handleGotoMovements = () => navigate("/movements")
     const handleGoToVerProveedores = () => navigate("/proveedores/dashboard");
     const handleGoToRegistrarProveedores = () => navigate("/proveedores/register");
     const handleGoToEditarProveedores = () => navigate("/proveedores/update");
@@ -85,9 +88,16 @@ export const Navbar = () => {
                                     </div>
                                 )}
                             </div>
-
-                            <NavButton text="Estadísticas" onClickHandler={handleGoToStats} />
-
+                            <div className="nav-button dropdown" onClick={() => toggleDropdown('stats')}>
+                                Estadísticas
+                                {isDropdownOpen.stats && (
+                                    <div className="dropdown-content">
+                                        <span onClick={handleGoToStats}>Ver Gráficas</span>
+                                        <span onClick={handleDowloadInventory}>Descargar Inventario</span>
+                                        <span onClick={handleGotoMovements}>Descargar Reporte de Vomientos</span>
+                                    </div>
+                                )}
+                            </div>
                             <div className="nav-button dropdown" onClick={() => toggleDropdown('cuenta')}>
                                 Mi Cuenta
                                 {isDropdownOpen.cuenta && (
