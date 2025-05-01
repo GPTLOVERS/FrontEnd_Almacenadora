@@ -24,7 +24,6 @@ export const useRegisterProveedor = () => {
                 const { msg } = response.data || {};
     
                 toast.success(msg || "Registro exitoso.");
-                //navigate('/');
             } else {
                 const errorMsg = response?.data?.message || "Error al registrar la cuenta";
                 toast.error(errorMsg);

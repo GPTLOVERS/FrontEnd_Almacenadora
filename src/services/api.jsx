@@ -78,3 +78,15 @@ export const registerProveedor = async (data) => {
         }
     }
 }
+
+export const updateProveedor = async (data,id) => {
+    try{
+        return await apiClient.put(`/proveedores/updateProveedor/${id}`, data)
+    }catch(e){
+        return{
+            error: true,
+            e
+        }
+    }
+}
+
