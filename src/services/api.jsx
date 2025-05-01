@@ -67,3 +67,14 @@ export const getProveedorById = async (id) => {
         };
     }
 };  
+
+export const registerProveedor = async (data) => {
+    try{
+        return await apiClient.post('/proveedores/createProveedor', data)
+    }catch(e){
+        return{
+            error: true,
+            e
+        }
+    }
+}

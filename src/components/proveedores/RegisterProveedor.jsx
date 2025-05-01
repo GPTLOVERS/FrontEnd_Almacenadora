@@ -3,64 +3,33 @@ import React, { useState } from "react";
 import {
     validateName,
     validateNameMessage,
-    validateSurname,
-    validateSurnameMessage,
-    validateConfirmPassword,
-    validateConfirmPasswordMessage,
     validateEmail,
     validateEmailMessage,
     validatePhone,
     validatePhoneMessage,
-    validatePassword,
-    validatePasswordMessage,
-    validateUsername,
-    validateUsernameMessage,
-} from "../../shared/validators"
-import Input from "./Input"
-import { useRegister } from "../../shared/hooks/useRegister";
-import { Flex, Box, Stack, Button, Text} from "@chakra-ui/react";
-import "../../pages/auth/loginPage.css";
+    validateAdress,
+    validateAdressMessage,
+    validateCompany,
+    validateCompanyMessage,
+} from "../../shared/validators";
+import Input from "../settings/Input";
+import { useRegisterProveedor } from "../../shared/hooks/useRegisterProveedor";
+import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
+import Navbar from "../navs/Navbar";
+import "../../pages/proveedores/dashboardProveedores.css";
 
-export const Register = ({ switchAuthHandler }) => {
-    const { register, isLoading } = useRegister();
+const initialFormState = {
+    name: { value: "", isValid: false, showError: false },
+    company: { value: "", isValid: false, showError: false },
+    email: { value: "", isValid: false, showError: false },
+    address: { value: "", isValid: false, showError: false },
+    phone: { value: "", isValid: false, showError: false },
+};
 
-    const [formState, setFormState] = useState({
-        name: {
-            value: "",
-            isValid: false,
-            showError: false,
-        },
-        surname: {
-            value: "",
-            isValid: false,
-            showError: false,
-        },
-        userName: {
-            value: "",
-            isValid: false,
-            showError: false,
-        },
-        email: {
-            value: "",
-            isValid: false,
-            showError: false,
-        },
-        password: {
-            value: "",
-            isValid: false,
-            showError: false,
-        },
-        passwordConfirm: {
-            value: "",
-            isValid: false,
-            showError: false,
-        },
-        phone: {
-            value: "",
-            isValid: false,
-            showError: false,
-        },
-    });
+export const RegisterProveedor = () => {
+    const { register, isLoading } = useRegisterProveedor();
+
+    const [formState, setFormState] = useState(initialFormState);
 
     const handleInputValueChange = (value, field) => {
         setFormState((prevState) => ({
@@ -78,23 +47,17 @@ export const Register = ({ switchAuthHandler }) => {
             case "name":
                 isValid = validateName(value);
                 break;
-            case "surname":
-                isValid = validateSurname(value);
+            case "company":
+                isValid = validateCompany(value);
                 break;
             case "email":
                 isValid = validateEmail(value);
                 break;
-            case "password":
-                isValid = validatePassword(value);
-                break;
-            case "userName":
-                isValid = validateUsername(value);
+            case "address":
+                isValid = validateAdress(value);
                 break;
             case "phone":
                 isValid = validatePhone(value);
-                break;
-            case "passwordConfirm":
-                isValid = validateConfirmPassword(formState.password.value, value);
                 break;
             default:
                 break;
@@ -109,48 +72,41 @@ export const Register = ({ switchAuthHandler }) => {
         }));
     };
 
-    const handleRegister = (event) => {
+    const handleRegister = async (event) => {
         event.preventDefault();
-        register(
-            formState.name.value,
-            formState.surname.value,
-            formState.userName.value,
-            formState.email.value,
-            formState.password.value,
-            formState.phone.value
-        );
-    }
+        try {
+            await register(
+                formState.name.value,
+                formState.company.value,
+                formState.email.value,
+                formState.address.value,
+                formState.phone.value
+            );
+            setFormState(initialFormState);
+        } catch (error) {
+            console.error("Error al registrar proveedor:", error);
+        }
+    };
 
     const isSubmitDisabled =
         isLoading ||
         !formState.name.isValid ||
-        !formState.surname.isValid ||
-        !formState.userName.isValid ||
+        !formState.company.isValid ||
+        !formState.address.isValid ||
         !formState.email.isValid ||
-        !formState.password.isValid ||
-        !formState.passwordConfirm.isValid ||
         !formState.phone.isValid;
 
     return (
+        <>
+        <Navbar/>
         <Flex className="flex-container">
             <Stack className="stack-container">
                 <Stack className="heading-container">
-                    <Text className="heading-title">Inicio de sesión</Text>
+                    <Text className="heading-title">Registrar Proveedor</Text>
                 </Stack>
                 <Box className="box-container">
                     <Stack className="form-stack">
                         <form onSubmit={handleRegister}>
-                            <Input
-                                field="surname"
-                                label="Apellido"
-                                value={formState.surname.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="text"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.surname.showError}
-                                validationMessage={validateSurnameMessage}
-                                className="input-field"
-                            />
                             <Input
                                 field="name"
                                 label="Nombre"
@@ -163,14 +119,14 @@ export const Register = ({ switchAuthHandler }) => {
                                 className="input-field"
                             />
                             <Input
-                                field="userName"
-                                label="Nombre de Usuario"
-                                value={formState.userName.value}
+                                field="company"
+                                label="Compañía"
+                                value={formState.company.value}
                                 onChangeHandler={handleInputValueChange}
                                 type="text"
                                 onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.userName.showError}
-                                validationMessage={validateUsernameMessage}
+                                showErrorMessage={formState.company.showError}
+                                validationMessage={validateCompanyMessage}
                                 className="input-field"
                             />
                             <Input
@@ -186,7 +142,7 @@ export const Register = ({ switchAuthHandler }) => {
                             />
                             <Input
                                 field="phone"
-                                label="Telefono"
+                                label="Teléfono"
                                 value={formState.phone.value}
                                 onChangeHandler={handleInputValueChange}
                                 type="text"
@@ -196,25 +152,14 @@ export const Register = ({ switchAuthHandler }) => {
                                 className="input-field"
                             />
                             <Input
-                                field="password"
-                                label="Contraseña"
-                                value={formState.password.value}
+                                field="address"
+                                label="Dirección"
+                                value={formState.address.value}
                                 onChangeHandler={handleInputValueChange}
-                                type="password"
+                                type="text"
                                 onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.password.showError}
-                                validationMessage={validatePasswordMessage}
-                                className="input-field"
-                            />
-                            <Input
-                                field="passwordConfirm"
-                                label="Re-Ingrese Contraseña"
-                                value={formState.passwordConfirm.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="password"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.passwordConfirm.showError}
-                                validationMessage={validateConfirmPasswordMessage}
+                                showErrorMessage={formState.address.showError}
+                                validationMessage={validateAdressMessage}
                                 className="input-field"
                             />
                             <Stack className="button-stack">
@@ -223,16 +168,16 @@ export const Register = ({ switchAuthHandler }) => {
                                     disabled={isSubmitDisabled}
                                     onClick={handleRegister}
                                 >
-                                    Registrarme
+                                    Registrar
                                 </Button>
                             </Stack>
                         </form>
-                        <Text className="create-account" onClick={switchAuthHandler}>
-                            ¿Ya tienes una cuenta?, Inicia Sesión
-                        </Text>
                     </Stack>
                 </Box>
             </Stack>
         </Flex>
-    )
-}
+        </>
+    );
+};
+
+export default RegisterProveedor;
