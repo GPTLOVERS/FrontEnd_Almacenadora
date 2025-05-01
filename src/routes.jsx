@@ -5,6 +5,7 @@ import DashboardProveedores from "./pages/proveedores";
 import DashboardPro from "./components/proveedores/DashboardPro";
 import ProveedorDetalle from "./components/proveedores/ProveedorDetalle";
 import RegisterProveedor from "./components/proveedores/RegisterProveedor";
+import UpdateProveedor from "./components/proveedores/UpdateProveedor";
 
 export const routes = [
     { path: "/auth", element: <LoginPage /> },
@@ -13,4 +14,7 @@ export const routes = [
     { path: "/proveedores/dashboard", element: <DashboardPro/> },
     { path: "/proveedores/:id", element: <ProveedorDetalle/> },
     { path: "/proveedores/register", element: <RegisterProveedor/> },
+    { path: `/proveedores/update/:id` , element: <RegisterProveedor/> },
+    { path: `/proveedores/update` , element: <UpdateProveedor/> },
+
 ];

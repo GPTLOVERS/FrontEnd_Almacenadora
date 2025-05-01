@@ -14,6 +14,8 @@ import {
 } from "../../shared/validators";
 import Input from "../settings/Input";
 import { useRegisterProveedor } from "../../shared/hooks/useRegisterProveedor";
+import { useUpdateProveedor } from "../../shared/hooks/useUpdateProveedor";
+import { useLocation } from "react-router-dom";
 import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
 import Navbar from "../navs/Navbar";
 import "../../pages/proveedores/dashboardProveedores.css";
@@ -27,9 +29,25 @@ const initialFormState = {
 };
 
 export const RegisterProveedor = () => {
-    const { register, isLoading } = useRegisterProveedor();
+    const location = useLocation();
+    const proveedor = location.state;
+    const esEdicion = Boolean(proveedor);
 
-    const [formState, setFormState] = useState(initialFormState);
+    const { register, isLoading } = useRegisterProveedor();
+    const {update, isLoadingUpdate} = useUpdateProveedor()
+
+    const [formState, setFormState] = useState(() => {
+        if (esEdicion) {
+            return {
+                name: { value: proveedor.name || "", isValid: true, showError: false },
+                company: { value: proveedor.company || "", isValid: true, showError: false },
+                email: { value: proveedor.email || "", isValid: true, showError: false },
+                address: { value: proveedor.address || "", isValid: true, showError: false },
+                phone: { value: proveedor.phone || "", isValid: true, showError: false },
+            };
+        }
+        return initialFormState;
+    });
 
     const handleInputValueChange = (value, field) => {
         setFormState((prevState) => ({
@@ -72,24 +90,43 @@ export const RegisterProveedor = () => {
         }));
     };
 
-    const handleRegister = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await register(
-                formState.name.value,
-                formState.company.value,
-                formState.email.value,
-                formState.address.value,
-                formState.phone.value
-            );
-            setFormState(initialFormState);
+            if (esEdicion) {
+                console.log("Actualizando proveedor:", {
+                    id: proveedor._id,
+                    name: formState.name.value,
+                    company: formState.company.value,
+                    email: formState.email.value,
+                    address: formState.address.value,
+                    phone: formState.phone.value,
+                });
+                await update(
+                    formState.name.value,
+                    formState.company.value,
+                    formState.email.value,
+                    formState.address.value,
+                    formState.phone.value,
+                    proveedor._id
+                )
+            } else {
+                await register(
+                    formState.name.value,
+                    formState.company.value,
+                    formState.email.value,
+                    formState.address.value,
+                    formState.phone.value
+                );
+                setFormState(initialFormState);
+            }
         } catch (error) {
-            console.error("Error al registrar proveedor:", error);
+            console.error("Error al guardar proveedor:", error);
         }
     };
 
     const isSubmitDisabled =
-        isLoading ||
+        isLoading || isLoadingUpdate ||
         !formState.name.isValid ||
         !formState.company.isValid ||
         !formState.address.isValid ||
@@ -98,84 +135,86 @@ export const RegisterProveedor = () => {
 
     return (
         <>
-        <Navbar/>
-        <Flex className="flex-container">
-            <Stack className="stack-container">
-                <Stack className="heading-container">
-                    <Text className="heading-title">Registrar Proveedor</Text>
-                </Stack>
-                <Box className="box-container">
-                    <Stack className="form-stack">
-                        <form onSubmit={handleRegister}>
-                            <Input
-                                field="name"
-                                label="Nombre"
-                                value={formState.name.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="text"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.name.showError}
-                                validationMessage={validateNameMessage}
-                                className="input-field"
-                            />
-                            <Input
-                                field="company"
-                                label="Compañía"
-                                value={formState.company.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="text"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.company.showError}
-                                validationMessage={validateCompanyMessage}
-                                className="input-field"
-                            />
-                            <Input
-                                field="email"
-                                label="Correo Electrónico"
-                                value={formState.email.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="email"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.email.showError}
-                                validationMessage={validateEmailMessage}
-                                className="input-field"
-                            />
-                            <Input
-                                field="phone"
-                                label="Teléfono"
-                                value={formState.phone.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="text"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.phone.showError}
-                                validationMessage={validatePhoneMessage}
-                                className="input-field"
-                            />
-                            <Input
-                                field="address"
-                                label="Dirección"
-                                value={formState.address.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="text"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.address.showError}
-                                validationMessage={validateAdressMessage}
-                                className="input-field"
-                            />
-                            <Stack className="button-stack">
-                                <Button
-                                    className="sign-in-button"
-                                    disabled={isSubmitDisabled}
-                                    onClick={handleRegister}
-                                >
-                                    Registrar
-                                </Button>
-                            </Stack>
-                        </form>
+            <Navbar />
+            <Flex className="flex-container">
+                <Stack className="stack-container">
+                    <Stack className="heading-container">
+                        <Text className="heading-title">
+                            {esEdicion ? "Editar Proveedor" : "Registrar Proveedor"}
+                        </Text>
                     </Stack>
-                </Box>
-            </Stack>
-        </Flex>
+                    <Box className="box-container">
+                        <Stack className="form-stack">
+                            <form onSubmit={handleSubmit}>
+                                <Input
+                                    field="name"
+                                    label="Nombre"
+                                    value={formState.name.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="text"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.name.showError}
+                                    validationMessage={validateNameMessage}
+                                    className="input-field"
+                                />
+                                <Input
+                                    field="company"
+                                    label="Compañía"
+                                    value={formState.company.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="text"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.company.showError}
+                                    validationMessage={validateCompanyMessage}
+                                    className="input-field"
+                                />
+                                <Input
+                                    field="email"
+                                    label="Correo Electrónico"
+                                    value={formState.email.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="email"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.email.showError}
+                                    validationMessage={validateEmailMessage}
+                                    className="input-field"
+                                />
+                                <Input
+                                    field="phone"
+                                    label="Teléfono"
+                                    value={formState.phone.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="text"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.phone.showError}
+                                    validationMessage={validatePhoneMessage}
+                                    className="input-field"
+                                />
+                                <Input
+                                    field="address"
+                                    label="Dirección"
+                                    value={formState.address.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="text"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.address.showError}
+                                    validationMessage={validateAdressMessage}
+                                    className="input-field"
+                                />
+                                <Stack className="button-stack">
+                                    <Button
+                                        className="sign-in-button"
+                                        disabled={isSubmitDisabled}
+                                        onClick={handleSubmit}
+                                    >
+                                        {esEdicion ? "Guardar Cambios" : "Registrar"}
+                                    </Button>
+                                </Stack>
+                            </form>
+                        </Stack>
+                    </Box>
+                </Stack>
+            </Flex>
         </>
     );
 };
