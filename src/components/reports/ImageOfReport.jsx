@@ -66,6 +66,7 @@ const ImageOfReport = () => {
             </div>
         </>
     );
+    
 };
 
 export default ImageOfReport;
