@@ -5,3 +5,5 @@ export * from './validateConfirmPassword'
 export * from "./validateName"
 export * from "./validatePhone"
 export * from "./validateSurname"
+export * from "./validateAdress"
+export * from "./validateCompany"

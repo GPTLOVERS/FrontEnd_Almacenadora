@@ -22,7 +22,7 @@ export const Navbar = () => {
     const handleGoToProfile = () => navigate("/profile")
     const handleGoToStats = () => navigate("/stats")
     const handleGoToVerProveedores = () => navigate("/proveedores/dashboard")
-    const handleGoToRegistrarProveedores = () => navigate("/agregarProveedores")
+    const handleGoToRegistrarProveedores = () => navigate("/proveedores/register")
     const handleGoToEditarProveedores = () => navigate("/EditarProveedores")
     const handleGoToVerProductos = () => navigate("/verProductos")
     const handleGoToRegistrarProductos= () => navigate("/agregarProductos")
