@@ -1,36 +1,34 @@
 import React, { useState } from "react";
 import {
     validateName,
-    validateNameMessage,
     validatePrice,
-    validatePriceMessage,
     validateStock,
-    validateStockMessage,
-    validateCategory,
-    validateCategoryMessage,
-} from "@/shared/validators";
+    validateBrand,
+    validateDescription
+} from "../../shared/validators";
 
-// Nuevos validadores agregados temporalmente
-const validateDescription = (val) => val.trim().length > 0;
-const validateDescriptionMessage = "La descripción es obligatoria.";
-const validateBrand = (val) => val.trim().length > 0;
-const validateBrandMessage = "La marca es obligatoria.";
-
-import Input from "@/components/settings/Input";
-import { useRegisterProducto } from "@/shared/hooks/useRegisterProducto";
-import { useUpdateProducto } from "@/shared/hooks/useUpdateProducto";
+import Input from "../../components/settings/Input";
+import useRegisterProducto from "../../shared/hooks/useRegisterProducto";
+import { useUpdateProducto } from "../../shared/hooks/useUpdateProducto";
 import { useLocation } from "react-router-dom";
 import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
-import Navbar from "@/components/navs/Navbar";
-import "@/pages/productos/dashboardProductos.css";
+import Navbar from "../../components/navs/Navbar";
+import "../../pages/productos/dashboardProductos.css";
 
 const initialFormState = {
     name: { value: "", isValid: false, showError: false },
+    description: { value: "", isValid: false, showError: false },
     price: { value: "", isValid: false, showError: false },
     stock: { value: "", isValid: false, showError: false },
-    category: { value: "", isValid: false, showError: false },
-    description: { value: "", isValid: false, showError: false },
     brand: { value: "", isValid: false, showError: false },
+};
+
+const validationMessages = {
+    name: "El nombre no es válido.",
+    price: "El precio debe ser un número válido.",
+    stock: "El stock debe ser un número entero positivo.",
+    description: "La descripción es obligatoria.",
+    brand: "La marca es requerida.",
 };
 
 export const RegisterProducto = () => {
@@ -46,9 +44,8 @@ export const RegisterProducto = () => {
             return {
                 name: { value: producto.name || "", isValid: true, showError: false },
                 price: { value: producto.price || "", isValid: true, showError: false },
-                stock: { value: producto.stock || "", isValid: true, showError: false },
-                category: { value: producto.category || "", isValid: true, showError: false },
                 description: { value: producto.description || "", isValid: true, showError: false },
+                stock: { value: producto.stock || "", isValid: true, showError: false },
                 brand: { value: producto.brand || "", isValid: true, showError: false },
             };
         }
@@ -74,17 +71,14 @@ export const RegisterProducto = () => {
             case "price":
                 isValid = validatePrice(value);
                 break;
-            case "stock":
-                isValid = validateStock(value);
-                break;
-            case "category":
-                isValid = validateCategory(value);
-                break;
             case "description":
                 isValid = validateDescription(value);
                 break;
             case "brand":
                 isValid = validateBrand(value);
+                break;
+            case "stock":
+                isValid = validateStock(value);
                 break;
             default:
                 break;
@@ -107,7 +101,6 @@ export const RegisterProducto = () => {
                     formState.name.value,
                     formState.price.value,
                     formState.stock.value,
-                    formState.category.value,
                     formState.description.value,
                     formState.brand.value,
                     producto.uid
@@ -115,10 +108,9 @@ export const RegisterProducto = () => {
             } else {
                 await register(
                     formState.name.value,
+                    formState.description.value,
                     formState.price.value,
                     formState.stock.value,
-                    formState.category.value,
-                    formState.description.value,
                     formState.brand.value
                 );
                 setFormState(initialFormState);
@@ -133,7 +125,6 @@ export const RegisterProducto = () => {
         !formState.name.isValid ||
         !formState.price.isValid ||
         !formState.stock.isValid ||
-        !formState.category.isValid ||
         !formState.description.isValid ||
         !formState.brand.isValid;
 
@@ -160,7 +151,7 @@ export const RegisterProducto = () => {
                                         type={field === 'price' || field === 'stock' ? 'number' : 'text'}
                                         onBlurHandler={handleInputValidationOnBlur}
                                         showErrorMessage={state.showError}
-                                        validationMessage={eval(`validate${field.charAt(0).toUpperCase() + field.slice(1)}Message`)}
+                                        validationMessage={validationMessages[field]}
                                         className="input-field"
                                     />
                                 ))}
@@ -181,4 +172,5 @@ export const RegisterProducto = () => {
         </>
     );
 };
+
 export default RegisterProducto;
