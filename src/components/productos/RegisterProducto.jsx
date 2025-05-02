@@ -97,14 +97,14 @@ export const RegisterProducto = () => {
         event.preventDefault();
         try {
             if (esEdicion) {
-                await update(
-                    formState.name.value,
-                    formState.price.value,
-                    formState.stock.value,
-                    formState.description.value,
-                    formState.brand.value,
-                    producto.uid
-                );
+                await update({
+                    name: formState.name.value,
+                    price: formState.price.value,
+                    stock: formState.stock.value,
+                    description: formState.description.value,
+                    brand: formState.brand.value,
+                    id: producto.uid
+                });
             } else {
                 await register(
                     formState.name.value,

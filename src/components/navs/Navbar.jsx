@@ -54,7 +54,7 @@ export const Navbar = () => {
     const handleGoToBuscarProveedores = () => navigate("/proveedores/find");
     const handleGoToVerProductos = () => navigate("/productos");
     const handleGoToRegistrarProductos = () => navigate("/productos/agregarProducto");
-    const handleGoToEditarProductos = () => navigate("/productos/updateProducto");
+    const handleGoToEditarProductos = () => navigate("/productos/update");
     const handleGoToGetBatch = () => navigate("/batch/list");
     const hangleGoToShearBatch = () => navigate("/batch/search");
     const handleLogout = () => logout();
