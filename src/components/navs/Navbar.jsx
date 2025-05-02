@@ -51,7 +51,7 @@ export const Navbar = () => {
     const handleGoToRegistrarProveedores = () => navigate("/proveedores/register");
     const handleGoToEditarProveedores = () => navigate("/proveedores/update");
     const handleGoToBuscarProveedores = () => navigate("/proveedores/find");
-    const handleGoToVerProductos = () => navigate("/verProductos");
+    const handleGoToVerProductos = () => navigate("/productos");
     const handleGoToRegistrarProductos = () => navigate("/agregarProductos");
     const handleGoToEditarProductos = () => navigate("/EditarProductos");
     const handleLogout = () => logout();

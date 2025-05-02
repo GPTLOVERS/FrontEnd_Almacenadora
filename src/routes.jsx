@@ -11,6 +11,9 @@ import ProtectedRoute from "./components/settings/ProtectedRoute";
 import Unauthorized from "./components/settings/Unauthorized";
 import ImageOfReport from "./components/reports/ImageOfReport";
 import { Movements } from "./components/reports/Movements";
+import DashboardProductos from "./components/productos/DashboardProductos";
+import ProductoDetalle from "./components/productos/ProductoDetalle";
+import RegisterProducto from "./components/productos/RegisterProducto"; 
 
 export const routes = [
     { path: "/auth", element: <LoginPage /> },
@@ -30,5 +33,8 @@ export const routes = [
     { path: "/movements", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE","EMPLOYEE_ROLE"]}>
     <Movements/>
     </ProtectedRoute> },
-    { path: `/unauthorized` , element: <Unauthorized/> }
+    { path: `/unauthorized` , element: <Unauthorized/> },
+    { path: "/productos", element: <DashboardProductos /> },
+    { path: "/productos/:id", element: <ProductoDetalle /> },
+    { path: "/productos/register", element: <RegisterProducto /> },
 ];

@@ -32,6 +32,7 @@ const useDownloadInventory = () => {
     }, []);
 
     return { loading, error, download };
+    
 };
 
 export default useDownloadInventory;
