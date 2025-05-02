@@ -32,6 +32,7 @@ const useDownloadMovements = () => {
         } finally {
             setLoading(false);
         }
+        
     }, []);
 
     return { loading, error, download };
