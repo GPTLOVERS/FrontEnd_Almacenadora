@@ -7,3 +7,6 @@ export {useUpdateProveedor} from "./useUpdateProveedor.jsx"
 export {useReportImage} from "./useReportImage"
 export { default as useDownloadInventory } from "./useDownloadInventory.jsx";
 export {default as useDownloadMovement} from "./useDownloadMovements.jsx"
+export {default as useGetProducto} from "./useGetProducto.jsx"
+export {default as useProductos} from "./useProductos.jsx"
+export {default as useRegisterProducto} from "./useRegisterProducto.jsx"

@@ -107,12 +107,94 @@ export const getDowloadInventory = async () => {
             error: true,
             message: e.response ? e.response.data.message : e.message || "Error desconocido",
         };
+
     }
 };
 
 export const getDowloadMovments = async () => {
     try {
-        const response = await apiClient.post(`/report/generateInventoryReport`);
+        const response = await apiClient.post(`/report/getLatestMovementReport`);
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || "Error desconocido",
+        };
+    }
+};
+
+export const getProductos = async () => {
+    try {
+        const response = await apiClient.get("/product/listProduct");
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || "Error desconocido",
+        };
+    }
+};
+
+export const getProductoById = async (id) => {
+    try {
+        const response = await apiClient.get(`/product/findProduct/${id}`);
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || "Error desconocido",
+        };
+    }
+};
+
+export const registerProducto = async (data) => {
+    try {
+        return await apiClient.post("/product/registerProduct", data);
+    } catch (e) {
+        return {
+            error: true,
+            e,
+        };
+    }
+};
+
+export const registerBatch = async (data) => {
+    try {
+        return await apiClient.post('/batch/createBatch', data);
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || 'Error al registrar el lote'
+        };
+    }
+};
+
+export const updateBatch = async (data, id) => {
+    try {
+        return await apiClient.put(`/batch/updateBatch/${id}`, data);
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || 'Error al actualizar el lote'
+        };
+    }
+};
+
+export const getBatchById = async (id) => {
+    try {
+        const response = await apiClient.get(`/batch/findBatch/${id}`);
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || "Error desconocido",
+        };
+    }
+};
+
+export const getBatches = async () => {
+    try {
+        const response = await apiClient.get(`/batch/getBatch`);
         return response.data;
     } catch (e) {
         return {
