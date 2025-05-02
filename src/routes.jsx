@@ -18,58 +18,84 @@ import DashboardBatch from "./components/batch/DashboardBat";
 import BatchDetalle from "./components/batch/BatchDetalle";
 import FindBatch from "./components/batch/FindBatch";
 import UpdateProducto from "./components/productos/UpdateProducto";
+import DeleteProducto from "./components/productos/DeleteProducto";
 
 export const routes = [
-    { path: "/auth", element: <LoginPage /> },
-    { path: "/*", element: <Dashboard /> },
-    { path: "/proveedores", element: <DashboardProveedores /> },
-    { path: "/proveedores/dashboard", element: <DashboardPro /> },
-    {
-        path: "/proveedores/:id", element: <ProtectedRoute allowedRoles={"ADMIN_ROLE"}>
-            <ProveedorDetalle />
-        </ProtectedRoute>
-    },
-    { path: "/proveedores/register", element: <RegisterProveedor /> },
-    { path: `/proveedores/update/:id`, element: <RegisterProveedor /> },
-    { path: `/proveedores/update`, element: <UpdateProveedor /> },
-    { path: `/proveedores/find`, element: <BuscarProveedor /> },
-    {
-        path: "/stats", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
-            <ImageOfReport />
-        </ProtectedRoute>
-    },
-    {
-        path: "/movements", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
-            <Movements />
-        </ProtectedRoute>
-    },
-    { path: `/unauthorized`, element: <Unauthorized /> },
-    { path: "/productos", element: <DashboardProductos /> },
-    { path: "/productos/:id", element: <ProductoDetalle /> },
-    { path: "/productos/agregarProducto", element: <RegisterProducto /> },
-    {
-        path: "/batch/list", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
-            <DashboardBatch />
-        </ProtectedRoute>
-    },
-    {
-        path: "/batch/:id", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
-            <BatchDetalle />
-        </ProtectedRoute>
-    },
-    {
-        path: "/batch/search", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
-            <FindBatch />
-        </ProtectedRoute>
-    },
-    {
-        path: "/productos/update", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
-            <UpdateProducto/>
-        </ProtectedRoute>
-    },
-    {
-        path: "/productos/update/:id", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
-            <RegisterProducto />
-        </ProtectedRoute>
-    },
+  { path: "/auth", element: <LoginPage /> },
+  { path: "/*", element: <Dashboard /> },
+  { path: "/proveedores", element: <DashboardProveedores /> },
+  { path: "/proveedores/dashboard", element: <DashboardPro /> },
+  {
+    path: "/proveedores/:id",
+    element: (
+      <ProtectedRoute allowedRoles={"ADMIN_ROLE"}>
+        <ProveedorDetalle />
+      </ProtectedRoute>
+    ),
+  },
+  { path: "/proveedores/register", element: <RegisterProveedor /> },
+  { path: `/proveedores/update/:id`, element: <RegisterProveedor /> },
+  { path: `/proveedores/update`, element: <UpdateProveedor /> },
+  { path: `/proveedores/find`, element: <BuscarProveedor /> },
+  {
+    path: "/stats",
+    element: (
+      <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
+        <ImageOfReport />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/movements",
+    element: (
+      <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
+        <Movements />
+      </ProtectedRoute>
+    ),
+  },
+  { path: `/unauthorized`, element: <Unauthorized /> },
+  { path: "/productos", element: <DashboardProductos /> },
+  { path: "/productos/:id", element: <ProductoDetalle /> },
+  { path: "/productos/agregarProducto", element: <RegisterProducto /> },
+  { path: "/productos/DeleteProducto", element: <DeleteProducto /> },
+  {
+    path: "/batch/list",
+    element: (
+      <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
+        <DashboardBatch />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/batch/:id",
+    element: (
+      <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
+        <BatchDetalle />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/batch/search",
+    element: (
+      <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
+        <FindBatch />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/productos/update",
+    element: (
+      <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
+        <UpdateProducto />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/productos/update/:id",
+    element: (
+      <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
+        <RegisterProducto />
+      </ProtectedRoute>
+    ),
+  },
 ];
