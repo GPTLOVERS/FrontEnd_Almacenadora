@@ -18,6 +18,7 @@ const validateBrandMessage = "La marca es obligatoria.";
 
 import Input from "@/components/settings/Input";
 import { useRegisterProducto } from "@/shared/hooks/useRegisterProducto";
+import { useUpdateProducto } from "@/shared/hooks/useUpdateProducto";
 import { useLocation } from "react-router-dom";
 import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
 import Navbar from "@/components/navs/Navbar";
@@ -38,6 +39,7 @@ export const RegisterProducto = () => {
     const esEdicion = Boolean(producto);
 
     const { register, isLoading } = useRegisterProducto();
+    const { update, isLoadingUpdate } = useUpdateProducto();
 
     const [formState, setFormState] = useState(() => {
         if (esEdicion) {
@@ -100,22 +102,34 @@ export const RegisterProducto = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await register(
-                formState.name.value,
-                formState.price.value,
-                formState.stock.value,
-                formState.category.value,
-                formState.description.value,
-                formState.brand.value
-            );
-            setFormState(initialFormState);
+            if (esEdicion) {
+                await update(
+                    formState.name.value,
+                    formState.price.value,
+                    formState.stock.value,
+                    formState.category.value,
+                    formState.description.value,
+                    formState.brand.value,
+                    producto.uid
+                );
+            } else {
+                await register(
+                    formState.name.value,
+                    formState.price.value,
+                    formState.stock.value,
+                    formState.category.value,
+                    formState.description.value,
+                    formState.brand.value
+                );
+                setFormState(initialFormState);
+            }
         } catch (error) {
             console.error("Error al guardar producto:", error);
         }
     };
 
     const isSubmitDisabled =
-        isLoading ||
+        isLoading || isLoadingUpdate ||
         !formState.name.isValid ||
         !formState.price.isValid ||
         !formState.stock.isValid ||
@@ -136,72 +150,20 @@ export const RegisterProducto = () => {
                     <Box className="box-container">
                         <Stack className="form-stack">
                             <form onSubmit={handleSubmit}>
-                                <Input
-                                    field="name"
-                                    label="Nombre"
-                                    value={formState.name.value}
-                                    onChangeHandler={handleInputValueChange}
-                                    type="text"
-                                    onBlurHandler={handleInputValidationOnBlur}
-                                    showErrorMessage={formState.name.showError}
-                                    validationMessage={validateNameMessage}
-                                    className="input-field"
-                                />
-                                <Input
-                                    field="price"
-                                    label="Precio"
-                                    value={formState.price.value}
-                                    onChangeHandler={handleInputValueChange}
-                                    type="number"
-                                    onBlurHandler={handleInputValidationOnBlur}
-                                    showErrorMessage={formState.price.showError}
-                                    validationMessage={validatePriceMessage}
-                                    className="input-field"
-                                />
-                                <Input
-                                    field="stock"
-                                    label="Stock"
-                                    value={formState.stock.value}
-                                    onChangeHandler={handleInputValueChange}
-                                    type="number"
-                                    onBlurHandler={handleInputValidationOnBlur}
-                                    showErrorMessage={formState.stock.showError}
-                                    validationMessage={validateStockMessage}
-                                    className="input-field"
-                                />
-                                <Input
-                                    field="category"
-                                    label="Categoría"
-                                    value={formState.category.value}
-                                    onChangeHandler={handleInputValueChange}
-                                    type="text"
-                                    onBlurHandler={handleInputValidationOnBlur}
-                                    showErrorMessage={formState.category.showError}
-                                    validationMessage={validateCategoryMessage}
-                                    className="input-field"
-                                />
-                                <Input
-                                    field="description"
-                                    label="Descripción"
-                                    value={formState.description.value}
-                                    onChangeHandler={handleInputValueChange}
-                                    type="text"
-                                    onBlurHandler={handleInputValidationOnBlur}
-                                    showErrorMessage={formState.description.showError}
-                                    validationMessage={validateDescriptionMessage}
-                                    className="input-field"
-                                />
-                                <Input
-                                    field="brand"
-                                    label="Marca"
-                                    value={formState.brand.value}
-                                    onChangeHandler={handleInputValueChange}
-                                    type="text"
-                                    onBlurHandler={handleInputValidationOnBlur}
-                                    showErrorMessage={formState.brand.showError}
-                                    validationMessage={validateBrandMessage}
-                                    className="input-field"
-                                />
+                                {Object.entries(formState).map(([field, state]) => (
+                                    <Input
+                                        key={field}
+                                        field={field}
+                                        label={field.charAt(0).toUpperCase() + field.slice(1)}
+                                        value={state.value}
+                                        onChangeHandler={handleInputValueChange}
+                                        type={field === 'price' || field === 'stock' ? 'number' : 'text'}
+                                        onBlurHandler={handleInputValidationOnBlur}
+                                        showErrorMessage={state.showError}
+                                        validationMessage={eval(`validate${field.charAt(0).toUpperCase() + field.slice(1)}Message`)}
+                                        className="input-field"
+                                    />
+                                ))}
                                 <Stack className="button-stack">
                                     <Button
                                         className="sign-in-button"
@@ -219,5 +181,4 @@ export const RegisterProducto = () => {
         </>
     );
 };
-
 export default RegisterProducto;

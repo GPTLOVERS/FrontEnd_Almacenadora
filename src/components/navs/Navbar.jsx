@@ -53,7 +53,7 @@ export const Navbar = () => {
     const handleGoToBuscarProveedores = () => navigate("/proveedores/find");
     const handleGoToVerProductos = () => navigate("/productos");
     const handleGoToRegistrarProductos = () => navigate("/productos/agregarProducto");
-    const handleGoToEditarProductos = () => navigate("/EditarProductos");
+    const handleGoToEditarProductos = () => navigate("/productos/updateProducto");
     const handleLogout = () => logout();
 
     return (

@@ -157,3 +157,14 @@ export const registerProducto = async (data) => {
         };
     }
 };
+
+export const updateProducto = async (data, id) => {
+    try {
+        return await apiClient.put(`/product/updateProduct/${id}`, data);
+    } catch (e) {
+        return {
+            error: true,
+            e,
+        };
+    }
+};

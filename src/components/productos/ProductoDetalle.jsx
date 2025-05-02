@@ -27,5 +27,4 @@ const ProductoDetalle = () => {
         </>
     );
 };
-
 export default ProductoDetalle;
