@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import useGetProducto from "../../shared/hooks/useGetProducto.jsx";
 import "./producto.css";
-import Navbar from "../navs/Navbar.jsx";
+import Navbar from "../navs/Navbar";
 
 const ProductoDetalle = () => {
     const { id } = useParams();
@@ -27,5 +27,4 @@ const ProductoDetalle = () => {
         </>
     );
 };
-
 export default ProductoDetalle;

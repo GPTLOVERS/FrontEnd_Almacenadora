@@ -28,5 +28,4 @@ const useProductos = () => {
 
     return { productos, loading, error };
 };
-
 export default useProductos;

@@ -23,8 +23,7 @@ export const Navbar = () => {
         producto: false,
         proveedores: false,
         cuenta: false,
-        stats: false,
-        batch: false
+        stats: false
     });
 
     const toggleDropdown = (menu) => {
@@ -53,9 +52,8 @@ export const Navbar = () => {
     const handleGoToEditarProveedores = () => navigate("/proveedores/update");
     const handleGoToBuscarProveedores = () => navigate("/proveedores/find");
     const handleGoToVerProductos = () => navigate("/productos");
-    const handleGoToRegistrarProductos = () => navigate("/agregarProductos");
-    const handleGoToEditarProductos = () => navigate("/EditarProductos");
-    const handleGoToGetBatch = () => navigate("/batch/list");
+    const handleGoToRegistrarProductos = () => navigate("/productos/agregarProducto");
+    const handleGoToEditarProductos = () => navigate("/productos/updateProducto");
     const handleLogout = () => logout();
 
     return (
@@ -96,16 +94,6 @@ export const Navbar = () => {
                                     <div className="dropdown-content">
                                         <span onClick={handleGoToStats}>Ver Gráficas</span>
                                         <span onClick={handleDowloadInventory}>Descargar Inventario</span>
-                                        <span onClick={handleGotoMovements}>Descargar Reporte de Vomientos</span>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="nav-button dropdown" onClick={() => toggleDropdown('batch')}>
-                                Lotes
-                                {isDropdownOpen.batch && (
-                                    <div className="dropdown-content">
-                                        <span onClick={handleGoToStats}>Agregar Lotes</span>
-                                        <span onClick={handleGoToGetBatch}>Ver Lotes</span>
                                         <span onClick={handleGotoMovements}>Descargar Reporte de Vomientos</span>
                                     </div>
                                 )}
