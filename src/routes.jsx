@@ -14,6 +14,8 @@ import { Movements } from "./components/reports/Movements";
 import DashboardProductos from "./components/productos/DashboardProductos";
 import ProductoDetalle from "./components/productos/ProductoDetalle";
 import RegisterProducto from "./components/productos/RegisterProducto"; 
+import DashboardBatch from "./components/batch/DashboardBat";
+import BatchDetalle from "./components/batch/BatchDetalle";
 
 export const routes = [
     { path: "/auth", element: <LoginPage /> },
@@ -37,4 +39,10 @@ export const routes = [
     { path: "/productos", element: <DashboardProductos /> },
     { path: "/productos/:id", element: <ProductoDetalle /> },
     { path: "/productos/register", element: <RegisterProducto /> },
+    { path: "/batch/list", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE","EMPLOYEE_ROLE"]}>
+    <DashboardBatch/>
+    </ProtectedRoute> },
+    { path: "/batch/:id", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE","EMPLOYEE_ROLE"]}>
+    <BatchDetalle/>
+    </ProtectedRoute> }
 ];

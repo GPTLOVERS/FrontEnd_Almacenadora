@@ -15,7 +15,7 @@ const useProductos = () => {
                     throw new Error(response.message || "Error al obtener productos");
                 }
 
-                setProductos(response.product); // ✅ CORREGIDO
+                setProductos(response.product);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -26,7 +26,7 @@ const useProductos = () => {
         fetchProductos();
     }, []);
 
-    return { productos, loading, error }; // ✅ usa 'productos'
+    return { productos, loading, error };
 };
 
 export default useProductos;
