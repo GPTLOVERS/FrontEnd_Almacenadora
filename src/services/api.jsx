@@ -214,3 +214,14 @@ export const getBatches = async () => {
         };
     }
 };
+
+export const buyProduct = async (data, id) => {
+    try {
+        return await apiClient.patch(`/product/issueProduct/${id}`, data);
+    } catch (e) {
+        return {
+            error: true,
+            e,
+        };
+    }
+};

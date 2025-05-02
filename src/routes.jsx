@@ -18,6 +18,7 @@ import DashboardBatch from "./components/batch/DashboardBat";
 import BatchDetalle from "./components/batch/BatchDetalle";
 import FindBatch from "./components/batch/FindBatch";
 import UpdateProducto from "./components/productos/UpdateProducto";
+import BuyProduct from "./components/productos/BuyProduct";
 
 export const routes = [
     { path: "/auth", element: <LoginPage /> },
@@ -72,4 +73,5 @@ export const routes = [
             <RegisterProducto />
         </ProtectedRoute>
     },
+    { path: `/product/buy`, element: <BuyProduct /> },
 ];
