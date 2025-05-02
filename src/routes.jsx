@@ -36,5 +36,5 @@ export const routes = [
     { path: `/unauthorized` , element: <Unauthorized/> },
     { path: "/productos", element: <DashboardProductos /> },
     { path: "/productos/:id", element: <ProductoDetalle /> },
-    { path: "/productos/register", element: <RegisterProducto /> },
+    { path: "/productos/agregarProducto", element: <RegisterProducto /> },
 ];

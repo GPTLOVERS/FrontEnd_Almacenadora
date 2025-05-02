@@ -5,14 +5,16 @@ import { useState } from "react";
 export const useRegisterProducto = () => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const registerProducto = async (name, price, category, stock) => {
+    const registerProducto = async (name, price, stock, category, description, brand) => {
         setIsLoading(true);
         try {
             const response = await registerRequest({
                 name,
                 price,
-                category,
                 stock,
+                category,
+                description,
+                brand,
             });
             console.log(response);
             setIsLoading(false);
@@ -37,4 +39,4 @@ export const useRegisterProducto = () => {
     };
 };
 
-export default useRegisterProducto
+export default useRegisterProducto;

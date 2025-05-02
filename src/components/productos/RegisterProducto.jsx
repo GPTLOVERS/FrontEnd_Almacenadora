@@ -1,32 +1,57 @@
-import PropTypes from "prop-types";
 import React, { useState } from "react";
 import {
     validateName,
     validateNameMessage,
     validatePrice,
     validatePriceMessage,
-    validateCategory,
-    validateCategoryMessage,
     validateStock,
     validateStockMessage,
-} from "../../shared/validators";
-import Input from "../settings/Input";
-import { useRegisterProducto } from "../../shared/hooks/useRegisterProducto.jsx";
+    validateCategory,
+    validateCategoryMessage,
+} from "@/shared/validators";
+
+// Nuevos validadores agregados temporalmente
+const validateDescription = (val) => val.trim().length > 0;
+const validateDescriptionMessage = "La descripción es obligatoria.";
+const validateBrand = (val) => val.trim().length > 0;
+const validateBrandMessage = "La marca es obligatoria.";
+
+import Input from "@/components/settings/Input";
+import { useRegisterProducto } from "@/shared/hooks/useRegisterProducto";
+import { useLocation } from "react-router-dom";
 import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
-import Navbar from "../navs/Navbar";
-import "../../pages/productos/dashboardProductos.css";
+import Navbar from "@/components/navs/Navbar";
+import "@/pages/productos/dashboardProductos.css";
 
 const initialFormState = {
     name: { value: "", isValid: false, showError: false },
     price: { value: "", isValid: false, showError: false },
-    category: { value: "", isValid: false, showError: false },
     stock: { value: "", isValid: false, showError: false },
+    category: { value: "", isValid: false, showError: false },
+    description: { value: "", isValid: false, showError: false },
+    brand: { value: "", isValid: false, showError: false },
 };
 
 export const RegisterProducto = () => {
+    const location = useLocation();
+    const producto = location.state;
+    const esEdicion = Boolean(producto);
+
     const { register, isLoading } = useRegisterProducto();
 
-    const [formState, setFormState] = useState(initialFormState);
+    const [formState, setFormState] = useState(() => {
+        if (esEdicion) {
+            return {
+                name: { value: producto.name || "", isValid: true, showError: false },
+                price: { value: producto.price || "", isValid: true, showError: false },
+                stock: { value: producto.stock || "", isValid: true, showError: false },
+                category: { value: producto.category || "", isValid: true, showError: false },
+                description: { value: producto.description || "", isValid: true, showError: false },
+                brand: { value: producto.brand || "", isValid: true, showError: false },
+            };
+        }
+        return initialFormState;
+    });
 
     const handleInputValueChange = (value, field) => {
         setFormState((prevState) => ({
@@ -47,11 +72,17 @@ export const RegisterProducto = () => {
             case "price":
                 isValid = validatePrice(value);
                 break;
+            case "stock":
+                isValid = validateStock(value);
+                break;
             case "category":
                 isValid = validateCategory(value);
                 break;
-            case "stock":
-                isValid = validateStock(value);
+            case "description":
+                isValid = validateDescription(value);
+                break;
+            case "brand":
+                isValid = validateBrand(value);
                 break;
             default:
                 break;
@@ -66,18 +97,20 @@ export const RegisterProducto = () => {
         }));
     };
 
-    const handleRegister = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             await register(
                 formState.name.value,
                 formState.price.value,
+                formState.stock.value,
                 formState.category.value,
-                formState.stock.value
+                formState.description.value,
+                formState.brand.value
             );
             setFormState(initialFormState);
         } catch (error) {
-            console.error("Error al registrar producto:", error);
+            console.error("Error al guardar producto:", error);
         }
     };
 
@@ -85,78 +118,104 @@ export const RegisterProducto = () => {
         isLoading ||
         !formState.name.isValid ||
         !formState.price.isValid ||
+        !formState.stock.isValid ||
         !formState.category.isValid ||
-        !formState.stock.isValid;
+        !formState.description.isValid ||
+        !formState.brand.isValid;
 
     return (
         <>
-        <Navbar/>
-        <Flex className="flex-container">
-            <Stack className="stack-container">
-                <Stack className="heading-container">
-                    <Text className="heading-title">Registrar Producto</Text>
-                </Stack>
-                <Box className="box-container">
-                    <Stack className="form-stack">
-                        <form onSubmit={handleRegister}>
-                            <Input
-                                field="name"
-                                label="Nombre"
-                                value={formState.name.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="text"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.name.showError}
-                                validationMessage={validateNameMessage}
-                                className="input-field"
-                            />
-                            <Input
-                                field="price"
-                                label="Precio"
-                                value={formState.price.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="number"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.price.showError}
-                                validationMessage={validatePriceMessage}
-                                className="input-field"
-                            />
-                            <Input
-                                field="category"
-                                label="Categoría"
-                                value={formState.category.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="text"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.category.showError}
-                                validationMessage={validateCategoryMessage}
-                                className="input-field"
-                            />
-                            <Input
-                                field="stock"
-                                label="Stock"
-                                value={formState.stock.value}
-                                onChangeHandler={handleInputValueChange}
-                                type="number"
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState.stock.showError}
-                                validationMessage={validateStockMessage}
-                                className="input-field"
-                            />
-                            <Stack className="button-stack">
-                                <Button
-                                    className="sign-in-button"
-                                    disabled={isSubmitDisabled}
-                                    onClick={handleRegister}
-                                >
-                                    Registrar
-                                </Button>
-                            </Stack>
-                        </form>
+            <Navbar />
+            <Flex className="flex-container">
+                <Stack className="stack-container">
+                    <Stack className="heading-container">
+                        <Text className="heading-title">
+                            {esEdicion ? "Editar Producto" : "Registrar Producto"}
+                        </Text>
                     </Stack>
-                </Box>
-            </Stack>
-        </Flex>
+                    <Box className="box-container">
+                        <Stack className="form-stack">
+                            <form onSubmit={handleSubmit}>
+                                <Input
+                                    field="name"
+                                    label="Nombre"
+                                    value={formState.name.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="text"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.name.showError}
+                                    validationMessage={validateNameMessage}
+                                    className="input-field"
+                                />
+                                <Input
+                                    field="price"
+                                    label="Precio"
+                                    value={formState.price.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="number"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.price.showError}
+                                    validationMessage={validatePriceMessage}
+                                    className="input-field"
+                                />
+                                <Input
+                                    field="stock"
+                                    label="Stock"
+                                    value={formState.stock.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="number"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.stock.showError}
+                                    validationMessage={validateStockMessage}
+                                    className="input-field"
+                                />
+                                <Input
+                                    field="category"
+                                    label="Categoría"
+                                    value={formState.category.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="text"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.category.showError}
+                                    validationMessage={validateCategoryMessage}
+                                    className="input-field"
+                                />
+                                <Input
+                                    field="description"
+                                    label="Descripción"
+                                    value={formState.description.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="text"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.description.showError}
+                                    validationMessage={validateDescriptionMessage}
+                                    className="input-field"
+                                />
+                                <Input
+                                    field="brand"
+                                    label="Marca"
+                                    value={formState.brand.value}
+                                    onChangeHandler={handleInputValueChange}
+                                    type="text"
+                                    onBlurHandler={handleInputValidationOnBlur}
+                                    showErrorMessage={formState.brand.showError}
+                                    validationMessage={validateBrandMessage}
+                                    className="input-field"
+                                />
+                                <Stack className="button-stack">
+                                    <Button
+                                        className="sign-in-button"
+                                        disabled={isSubmitDisabled}
+                                        onClick={handleSubmit}
+                                    >
+                                        {esEdicion ? "Guardar Cambios" : "Registrar"}
+                                    </Button>
+                                </Stack>
+                            </form>
+                        </Stack>
+                    </Box>
+                </Stack>
+            </Flex>
         </>
     );
 };
