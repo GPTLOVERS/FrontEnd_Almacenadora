@@ -160,7 +160,64 @@ export const registerProducto = async (data) => {
 
 export const updateProducto = async (data, id) => {
     try {
-        return await apiClient.put(`/product/updateProduct/${id}`, data);
+        return await apiClient.patch(`/product/updateProduct/${id}`, data);
+    } catch (e) {
+        return {
+            error: true,
+            e,
+        };
+    }
+};
+
+export const registerBatch = async (data) => {
+    try {
+        return await apiClient.post('/batch/createBatch', data);
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || 'Error al registrar el lote'
+        };
+    }
+};
+
+export const updateBatch = async (data, id) => {
+    try {
+        return await apiClient.put(`/batch/updateBatch/${id}`, data);
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || 'Error al actualizar el lote'
+        };
+    }
+};
+
+export const getBatchById = async (id) => {
+    try {
+        const response = await apiClient.get(`/batch/findBatch/${id}`);
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || "Error desconocido",
+        };
+    }
+};
+
+export const getBatches = async () => {
+    try {
+        const response = await apiClient.get(`/batch/getBatch`);
+        return response.data;
+    } catch (e) {
+        return {
+            error: true,
+            message: e.response ? e.response.data.message : e.message || "Error desconocido",
+        };
+    }
+};
+
+export const buyProduct = async (data, id) => {
+    try {
+        return await apiClient.patch(`/product/issueProduct/${id}`, data);
     } catch (e) {
         return {
             error: true,

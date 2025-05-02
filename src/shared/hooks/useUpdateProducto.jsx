@@ -5,16 +5,16 @@ import { useState } from "react";
 export const useUpdateProducto = () => {
     const [isLoadingUpdate, setIsLoading] = useState(false);
 
-    const updateProducto = async (name, category, price, stock, description, id) => {
+    const updateProducto = async ({ name, price, stock, description, brand, id }) => {
         setIsLoading(true);
         try {
             const response = await updateProductoRequest(
                 {
                     name,
-                    category,
                     price,
                     stock,
                     description,
+                    brand
                 },
                 id
             );
