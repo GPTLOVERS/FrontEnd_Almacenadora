@@ -26,8 +26,9 @@ const UpdateProducto = () => {
                         <div className="producto" key={index}>
                             <h3>{producto.name}</h3>
                             <p>${producto.price}</p>
+                            <p>{producto.category}</p>
                             <button onClick={() => navigate(`/productos/update/${producto.uid}`, { state: producto })}>
-                                Ver detalles
+                                Editar Producto
                             </button>
                         </div>
                     ))

@@ -56,6 +56,7 @@ export const Navbar = () => {
     const handleGoToRegistrarProductos = () => navigate("/productos/agregarProducto");
     const handleGoToEditarProductos = () => navigate("/productos/update");
     const handleGoToBuyProduct = () => navigate("/product/buy");
+    const handleGoToBuscarProductos = () => navigate("/productos/find");
     const handleGoToGetBatch = () => navigate("/batch/list");
     const hangleGoToShearBatch = () => navigate("/batch/search");
     const handleLogout = () => logout();
@@ -78,6 +79,7 @@ export const Navbar = () => {
                                         <span onClick={handleGoToRegistrarProductos}>Agregar Productos</span>
                                         <span onClick={handleGoToEditarProductos}>Editar Productos</span>
                                         <span onClick={handleGoToBuyProduct}>Comprar Productos</span>
+                                        <span onClick={handleGoToBuscarProductos}>Buscar Productos</span>
                                     </div>
                                 )}
                             </div>
