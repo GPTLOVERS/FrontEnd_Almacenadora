@@ -5,23 +5,27 @@ import {
     Flex,
     Stack,
     Text,
+    Select,
 } from "@chakra-ui/react";
 import Navbar from "../navs/Navbar";
-import useGetBatchById from "../../shared/hooks/useGetBatchById";
-import Input from "../settings/Input";
+import useGetBatch from "../../shared/hooks/useGetBatch";
 import "../../pages/proveedores/dashboardProveedores.css";
 import { useNavigate } from "react-router-dom";
 
 export const FindBatch = () => {
-    const [busqueda, setBusqueda] = useState("");
-    const [query, setQuery] = useState("");
-    const { batch, loading, error } = useGetBatchById(query);
-    const navigate = useNavigate()
+    const [selectedBatchId, setSelectedBatchId] = useState("");
+    const navigate = useNavigate();
+    const { batch: batches, loading, error } = useGetBatch();
 
     const handleBuscar = (e) => {
         e.preventDefault();
-        if (!busqueda.trim()) return;
-        setQuery(busqueda);
+
+        if (!selectedBatchId || !/^[0-9a-fA-F]{24}$/.test(selectedBatchId)) {
+            alert("Selecciona un lote válido.");
+            return;
+        }
+
+        navigate(`/batch/${selectedBatchId}`);
     };
 
     return (
@@ -35,16 +39,20 @@ export const FindBatch = () => {
                     <Box className="box-container">
                         <form onSubmit={handleBuscar}>
                             <Stack spacing={4} className="form-stack">
-                                <Input
-                                    field="busqueda"
-                                    label="ID del Lote"
-                                    value={busqueda}
-                                    onChangeHandler={(val) => setBusqueda(val)}
-                                    type="text"
-                                    showErrorMessage={false}
-                                    validationMessage=""
-                                    className="input-field"
-                                />
+                                <Select
+                                    placeholder="Selecciona un lote"
+                                    value={selectedBatchId}
+                                    onChange={(e) => setSelectedBatchId(e.target.value)}
+                                    isDisabled={loading}
+                                >
+                                    {batches.map((batch) => (
+                                        <option key={batch.uid} value={batch.uid}>
+                                            Lote #{batch.noBatch} - {batch.dateOfEntry || "sin fecha"}
+                                        </option>
+
+                                    ))}
+                                </Select>
+
                                 <Button
                                     type="submit"
                                     className="sign-in-button"
@@ -60,10 +68,6 @@ export const FindBatch = () => {
                             <Box mt={4}>
                                 <Text color="red.500">{error}</Text>
                             </Box>
-                        )}
-
-                        {batch && !loading && (
-                            navigate(`/batch/${batch.uid}`)
                         )}
                     </Box>
                 </Stack>

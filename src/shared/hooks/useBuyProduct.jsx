@@ -17,7 +17,7 @@ export const useBuyProduct = () => {
 
             if (response?.status >= 200 && response?.status < 300) {
                 const msg = response.data?.msg || "Emisión exitosa.";
-                toast.success(msg); // Mostrar mensaje de éxito
+                toast.success(msg);
             } else if (response?.error) {
                 toast.error(response?.e?.message || "Error inesperado al emitir el producto.");
             } else {

@@ -20,6 +20,7 @@ import FindBatch from "./components/batch/FindBatch";
 import UpdateProducto from "./components/productos/UpdateProducto";
 import BuyProduct from "./components/productos/BuyProduct";
 import BuscarProducto from "./components/productos/FindProducto";
+import DeleteProducto from "./components/productos/DeleteProducto";
 
 export const routes = [
     { path: "/auth", element: <LoginPage /> },
@@ -78,6 +79,11 @@ export const routes = [
     {
         path: "/productos/find", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
             <BuscarProducto />
+        </ProtectedRoute>
+    },
+    {
+        path: "/productos/DeleteProducto", element: <ProtectedRoute allowedRoles={"ADMIN_ROLE"}>
+            <DeleteProducto/>
         </ProtectedRoute>
     },
 ];
