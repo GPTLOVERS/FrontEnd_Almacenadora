@@ -3,7 +3,6 @@ import {
     validateName,
     validatePrice,
     validateStock,
-    validateBrand,
     validateDescription
 } from "../../shared/validators";
 
@@ -48,7 +47,6 @@ export const RegisterProducto = () => {
                 price: { value: producto.price || "", isValid: true, showError: false },
                 description: { value: producto.description || "", isValid: true, showError: false },
                 stock: { value: producto.stock || "", isValid: true, showError: false },
-                brand: { value: producto.brand || "", isValid: true, showError: false },
                 category: { value: producto.category || "", isValid: true, showError: false },
             };
         }

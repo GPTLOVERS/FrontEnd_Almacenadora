@@ -5,24 +5,28 @@ import {
     Flex,
     Stack,
     Text,
+    Select,
 } from "@chakra-ui/react";
 import Navbar from "../navs/Navbar";
 import useGetProveedor from "../../shared/hooks/useGetProveedor";
-import Input from "../settings/Input"; 
-import "../../pages/proveedores/dashboardProveedores.css";
+import useProveedores from "../../shared/hooks/useProveedores"; // hook para llenar combo
 import { useNavigate } from "react-router-dom";
 
 export const BuscarProveedor = () => {
-    const [busqueda, setBusqueda] = useState("");
-    const [query, setQuery] = useState("");
+    const [selectedId, setSelectedId] = useState("");
     const navigate = useNavigate();
-    const { data: proveedor, isLoading } = useGetProveedor(query);
+    const { data: proveedor, loading, error } = useGetProveedor(selectedId);
+    const { proveedores, loading: loadingProveedores } = useProveedores();
 
     const handleBuscar = (e) => {
         e.preventDefault();
-        if (!busqueda.trim()) return;
-        setQuery(busqueda);
-        navigate(`/proveedores/${busqueda}`);
+
+        if (!selectedId || !/^[0-9a-fA-F]{24}$/.test(selectedId)) {
+            alert("Selecciona un proveedor válido.");
+            return;
+        }
+
+        navigate(`/proveedores/${selectedId}`);
     };
 
     return (
@@ -36,31 +40,39 @@ export const BuscarProveedor = () => {
                     <Box className="box-container">
                         <form onSubmit={handleBuscar}>
                             <Stack spacing={4} className="form-stack">
-                                <Input
-                                    field="busqueda"
-                                    label="Nombre o ID del proveedor"
-                                    value={busqueda}
-                                    onChangeHandler={(val) => setBusqueda(val)}
-                                    type="text"
-                                    showErrorMessage={false}
-                                    validationMessage=""
-                                    className="input-field"
-                                />
+                                <Select
+                                    placeholder="Selecciona un proveedor"
+                                    value={selectedId}
+                                    onChange={(e) => setSelectedId(e.target.value)}
+                                    isDisabled={loadingProveedores}
+                                >
+                                    {proveedores.map((prov) => (
+                                        <option key={prov._id} value={prov._id}>
+                                            {prov.name} - {prov.nit}
+                                        </option>
+                                    ))}
+                                </Select>
                                 <Button
                                     type="submit"
-                                    className="sign-in-button"
                                     colorScheme="blue"
-                                    isLoading={isLoading}
+                                    isLoading={loading}
                                 >
                                     Buscar
                                 </Button>
                             </Stack>
                         </form>
+
                         {proveedor && (
                             <Box mt={4}>
                                 <Text fontWeight="bold">Resultado:</Text>
                                 <pre>{JSON.stringify(proveedor, null, 2)}</pre>
                             </Box>
+                        )}
+
+                        {error && (
+                            <Text color="red.500" mt={2}>
+                                {error}
+                            </Text>
                         )}
                     </Box>
                 </Stack>

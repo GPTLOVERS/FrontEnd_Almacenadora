@@ -225,3 +225,14 @@ export const buyProduct = async (data, id) => {
         };
     }
 };
+
+export const deleteProduct = async (id) =>{
+    try{
+        return await apiClient.patch(`/product/deleteProduct/${id}`)
+    }catch(e){
+        return {
+            error: true,
+            e,
+        };
+    }
+}

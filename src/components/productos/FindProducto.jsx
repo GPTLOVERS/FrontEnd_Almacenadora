@@ -5,25 +5,29 @@ import {
     Flex,
     Stack,
     Text,
+    Select,
 } from "@chakra-ui/react";
 import Navbar from "../navs/Navbar";
 import useGetProducto from "../../shared/hooks/useGetProducto";
-import Input from "../../components/settings/Input"; 
+import useProductos from "../../shared/hooks/useProductos";
 import { useNavigate } from "react-router-dom";
 import "../../pages/productos/dashboardProductos.css";
 
 export const BuscarProducto = () => {
-    const [busqueda, setBusqueda] = useState("");
+    const [selectedId, setSelectedId] = useState("");
     const [query, setQuery] = useState("");
     const navigate = useNavigate();
     const { product, loading } = useGetProducto(query);
+    const { productos, loading: loadingProductos } = useProductos();
 
     const handleBuscar = (e) => {
         e.preventDefault();
-        if (!busqueda.trim()) return;
-        setQuery(busqueda);
-        navigate(`/productos/${busqueda}`);
+        if (!selectedId.trim()) return;
+        setQuery(selectedId);
+        navigate(`/productos/${selectedId}`);
     };
+
+    const productosDisponibles = productos?.filter(p => p.status !== false) || [];
 
     return (
         <>
@@ -36,16 +40,18 @@ export const BuscarProducto = () => {
                     <Box className="box-container">
                         <form onSubmit={handleBuscar}>
                             <Stack spacing={4} className="form-stack">
-                                <Input
-                                    field="busqueda"
-                                    label="Nombre o ID del producto"
-                                    value={busqueda}
-                                    onChangeHandler={(val) => setBusqueda(val)}
-                                    type="text"
-                                    showErrorMessage={false}
-                                    validationMessage=""
-                                    className="input-field"
-                                />
+                                <Select
+                                    placeholder="Selecciona un producto"
+                                    value={selectedId}
+                                    onChange={(e) => setSelectedId(e.target.value)}
+                                    isDisabled={loadingProductos}
+                                >
+                                    {productosDisponibles.map((producto) => (
+                                        <option key={producto.uid} value={producto.uid}>
+                                            {producto.name} - ${producto.price}
+                                        </option>
+                                    ))}
+                                </Select>
                                 <Button
                                     type="submit"
                                     className="sign-in-button"
