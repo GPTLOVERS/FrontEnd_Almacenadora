@@ -21,6 +21,7 @@ const initialFormState = {
     price: { value: "", isValid: false, showError: false },
     stock: { value: "", isValid: false, showError: false },
     brand: { value: "", isValid: false, showError: false },
+    category: { value: "", isValid: false, showError: false },
 };
 
 const validationMessages = {
@@ -29,6 +30,7 @@ const validationMessages = {
     stock: "El stock debe ser un número entero positivo.",
     description: "La descripción es obligatoria.",
     brand: "La marca es requerida.",
+    category: "La categoría es obligatoria.",
 };
 
 export const RegisterProducto = () => {
@@ -47,6 +49,7 @@ export const RegisterProducto = () => {
                 description: { value: producto.description || "", isValid: true, showError: false },
                 stock: { value: producto.stock || "", isValid: true, showError: false },
                 brand: { value: producto.brand || "", isValid: true, showError: false },
+                category: { value: producto.category || "", isValid: true, showError: false },
             };
         }
         return initialFormState;
@@ -74,9 +77,9 @@ export const RegisterProducto = () => {
             case "description":
                 isValid = validateDescription(value);
                 break;
-            case "brand":
-                isValid = validateBrand(value);
-                break;
+            case "category":
+                isValid = value.trim() !== "";
+                break;    
             case "stock":
                 isValid = validateStock(value);
                 break;
@@ -102,7 +105,7 @@ export const RegisterProducto = () => {
                     price: formState.price.value,
                     stock: formState.stock.value,
                     description: formState.description.value,
-                    brand: formState.brand.value,
+                    category: formState.category.value,
                     id: producto.uid
                 });
             } else {
@@ -111,7 +114,7 @@ export const RegisterProducto = () => {
                     formState.description.value,
                     formState.price.value,
                     formState.stock.value,
-                    formState.brand.value
+                    formState.category.value
                 );
                 setFormState(initialFormState);
             }
@@ -126,7 +129,7 @@ export const RegisterProducto = () => {
         !formState.price.isValid ||
         !formState.stock.isValid ||
         !formState.description.isValid ||
-        !formState.brand.isValid;
+        !formState.category.isValid;
 
     return (
         <>

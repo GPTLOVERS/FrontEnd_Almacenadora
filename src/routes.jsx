@@ -19,6 +19,7 @@ import BatchDetalle from "./components/batch/BatchDetalle";
 import FindBatch from "./components/batch/FindBatch";
 import UpdateProducto from "./components/productos/UpdateProducto";
 import BuyProduct from "./components/productos/BuyProduct";
+import BuscarProducto from "./components/productos/FindProducto";
 
 export const routes = [
     { path: "/auth", element: <LoginPage /> },
@@ -74,4 +75,9 @@ export const routes = [
         </ProtectedRoute>
     },
     { path: `/product/buy`, element: <BuyProduct /> },
+    {
+        path: "/productos/find", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
+            <BuscarProducto />
+        </ProtectedRoute>
+    },
 ];

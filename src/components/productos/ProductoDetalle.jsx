@@ -22,6 +22,7 @@ const ProductoDetalle = () => {
                 <p><strong>Precio:</strong> ${product.price}</p>
                 <p><strong>Categoría:</strong> {product.category}</p>
                 <p><strong>Stock:</strong> {product.stock}</p>
+                <p><strong>Entradas:</strong> {product.receipts.join(", ")}</p>
             </div>
         </div>
         </>
