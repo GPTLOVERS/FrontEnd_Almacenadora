@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Input from "../settings/Input";
 import { useBuyProduct } from "../../shared/hooks/useBuyProduct";
 import useProductos from "../../shared/hooks/useProductos";
+import "../productos/producto.css"
+
 import {
     Flex,
     Box,
@@ -80,59 +82,56 @@ export const BuyProduct = ({ productId }) => {
     return (
         <>
             <Navbar />
-            <Flex className="flex-container">
-                <Stack className="stack-container">
-                    <Stack className="heading-container">
-                        <Text className="heading-title">Comprar Producto</Text>
-                    </Stack>
-                    <Box className="box-container">
-                        <Stack className="form-stack">
-                            <form onSubmit={handleBuy}>
-                                <Input
-                                    field="issueNum"
-                                    label="Cantidad a Comprar"
-                                    value={formState.issueNum.value}
-                                    onChangeHandler={handleInputValueChange}
-                                    type="number"
-                                    onBlurHandler={handleInputValidationOnBlur}
-                                    showErrorMessage={formState.issueNum.showError}
-                                    validationMessage="Ingrese una cantidad válida"
-                                    className="input-field"
-                                />
+            <div className="form-container">
+                <h1 className="form-title">Comprar Producto</h1>
+                <div className="form-stack">
+                    <form onSubmit={handleBuy} className="form">
+                        <Input
+                            field="issueNum"
+                            label="Cantidad a Comprar"
+                            value={formState.issueNum.value}
+                            onChangeHandler={handleInputValueChange}
+                            type="number"
+                            onBlurHandler={handleInputValidationOnBlur}
+                            showErrorMessage={formState.issueNum.showError}
+                            validationMessage="Ingrese una cantidad válida"
+                            className="input-field"
+                        />
 
-                                {loading ? (
-                                    <Spinner />
-                                ) : (
-                                    <Select
-                                        placeholder="Selecciona un producto"
-                                        value={formState.productId.value}
-                                        onChange={handleSelectChange}
-                                        isInvalid={formState.productId.showError}
-                                        className="input-field"
-                                    >
-                                        {productos.map((producto) => (
-                                            <option key={producto.uid} value={producto.uid}>
-                                                {producto.name} ({producto.stock})
-                                            </option>
-                                        ))}
+                        {loading ? (
+                            <Spinner />
+                        ) : (
+                            <>
+                                <label htmlFor="producto" className="form-label">Selecciona un producto</label>
+                                <Select
+                                    id="producto"
+                                    placeholder="Selecciona un producto"
+                                    value={formState.productId.value}
+                                    onChange={handleSelectChange}
+                                    isInvalid={formState.productId.showError}
+                                    className="form-select"
+                                >
+                                    {productos.map((producto) => (
+                                        <option key={producto.uid} value={producto.uid}>
+                                            {producto.name} ({producto.stock})
+                                        </option>
+                                    ))}
+                                </Select>
+                            </>
+                        )}
 
-                                    </Select>
-                                )}
-                                {error && <Text color="red.500">{error}</Text>}
-                                <Stack className="button-stack">
-                                    <Button
-                                        className="sign-in-button"
-                                        disabled={isSubmitDisabled}
-                                        onClick={handleBuy}
-                                    >
-                                        Confirmar Compra
-                                    </Button>
-                                </Stack>
-                            </form>
-                        </Stack>
-                    </Box>
-                </Stack>
-            </Flex>
+                        {error && <p className="text-error">{error}</p>}
+
+                        <button
+                            type="submit"
+                            className="form-button"
+                            disabled={isSubmitDisabled}
+                        >
+                            Confirmar Compra
+                        </button>
+                    </form>
+                </div>
+            </div>
         </>
     );
 };

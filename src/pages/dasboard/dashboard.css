@@ -15,7 +15,7 @@ body {
 
 .navbar-header {
     width: 100%;
-    background-color: #023047;
+    background-color: #2D1859;
     box-shadow: 0 2px 6px rgba(255, 255, 255, 0.2);
 }
 
@@ -41,12 +41,12 @@ body {
 }
 
 .nav-button:hover {
-    color: #fb8500;
+    color: #8A52D9;
 }
 
 .navbar-contact .contact-button {
     padding: 0.4rem 1rem;
-    background-color: #ffb703;
+    /* background-color: #3C2273; */
     color: white;
     border: none;
     border-radius: 5px;
@@ -55,9 +55,9 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.navbar-contact .contact-button:hover {
-    background-color: #ffb703;
-}
+/* .navbar-contact .contact-button:hover {
+    background-color: #3C2273;
+} */
 
 .dropdown {
     position: relative;
@@ -68,7 +68,7 @@ body {
     position: absolute;
     top: 200%;
     left: 0;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #2D1859;
     min-width: 160px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1000;
@@ -80,14 +80,14 @@ body {
 .dropdown-content span {
     font-weight: 400; 
     padding: 0.5rem 1rem;
-    color: #023047;
+    color: #ecf0f1;
     display: block;
     cursor: pointer;
 }
 
 .dropdown-content span:hover {
     color: #ecf0f1;
-    background-color: #F27127;
+    background-color: #8A52D9;
     transition: background-color 0.3s ease;
 }
 

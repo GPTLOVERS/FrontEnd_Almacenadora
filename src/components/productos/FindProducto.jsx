@@ -11,7 +11,9 @@ import Navbar from "../navs/Navbar";
 import useGetProducto from "../../shared/hooks/useGetProducto";
 import useProductos from "../../shared/hooks/useProductos";
 import { useNavigate } from "react-router-dom";
-import "../../pages/productos/dashboardProductos.css";
+// import "../../pages/productos/dashboardProductos.css";
+import "../productos/producto.css"
+
 
 export const BuscarProducto = () => {
     const [selectedId, setSelectedId] = useState("");
@@ -31,48 +33,51 @@ export const BuscarProducto = () => {
 
     return (
         <>
-            <Navbar />
-            <Flex className="flex-container">
-                <Stack className="stack-container">
-                    <Stack className="heading-container">
-                        <Text className="heading-title">Buscar Producto</Text>
-                    </Stack>
-                    <Box className="box-container">
-                        <form onSubmit={handleBuscar}>
-                            <Stack spacing={4} className="form-stack">
-                                <Select
-                                    placeholder="Selecciona un producto"
-                                    value={selectedId}
-                                    onChange={(e) => setSelectedId(e.target.value)}
-                                    isDisabled={loadingProductos}
-                                >
-                                    {productosDisponibles.map((producto) => (
-                                        <option key={producto.uid} value={producto.uid}>
-                                            {producto.name} - ${producto.price}
-                                        </option>
-                                    ))}
-                                </Select>
-                                <Button
-                                    type="submit"
-                                    className="sign-in-button"
-                                    colorScheme="blue"
-                                    isLoading={loading}
-                                >
-                                    Buscar
-                                </Button>
-                            </Stack>
-                        </form>
-                        {product && (
-                            <Box mt={4}>
-                                <Text fontWeight="bold">Resultado:</Text>
-                                <pre>{JSON.stringify(product, null, 2)}</pre>
-                            </Box>
-                        )}
-                    </Box>
-                </Stack>
-            </Flex>
+          <Navbar />
+          <div className=".form-container">
+            <Stack className="form-container" spacing={6}>
+              <Stack>
+                <Text className="form-title">Buscar Producto</Text>
+              </Stack>
+              <Box>
+                <form onSubmit={handleBuscar} className=".form-container">
+                  <label htmlFor="producto" className="form-label">
+                    Selecciona un producto
+                  </label>
+                  <Select
+                    id="producto"
+                    value={selectedId}
+                    onChange={(e) => setSelectedId(e.target.value)}
+                    isDisabled={loadingProductos}
+                    className="form-select"
+                    placeholder="Selecciona un producto"
+                  >
+                    {productosDisponibles.map((producto) => (
+                      <option key={producto.uid} value={producto.uid}>
+                        {producto.name} - ${producto.price}
+                      </option>
+                    ))}
+                  </Select>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="form-button"
+                  >
+                    {loading ? "Buscando..." : "Buscar"}
+                  </button>
+                </form>
+      
+                {product && (
+                  <Box mt={4}>
+                    <Text fontWeight="bold">Resultado:</Text>
+                    <pre>{JSON.stringify(product, null, 2)}</pre>
+                  </Box>
+                )}
+              </Box>
+            </Stack>
+          </div>
         </>
-    );
-};
+      );
+};      
 
 export default BuscarProducto;

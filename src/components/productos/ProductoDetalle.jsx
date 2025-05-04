@@ -13,19 +13,20 @@ const ProductoDetalle = () => {
     if (!product) return <p className="error-text">No se encontró el producto.</p>;
 
     return (
-        <>  
-        <Navbar/>
-        <div className="producto-detalle-container">
-            <h1 className="producto-title">Detalles del Producto</h1>
-            <div className="producto-info">
-                <h2 className="producto-name">{product.name}</h2>
-                <p><strong>Precio:</strong> ${product.price}</p>
-                <p><strong>Categoría:</strong> {product.category}</p>
-                <p><strong>Stock:</strong> {product.stock}</p>
-                <p><strong>Entradas:</strong> {product.receipts.join(", ")}</p>
+        <>
+          <Navbar />
+          <div className="detail-container">
+            <h1 className="detail-title">Detalles del Producto</h1>
+            <div className="detail-info">
+              <h2 className="detail-name">{product.name}</h2>
+              <p><strong>Precio:</strong> ${product.price}</p>
+              <p><strong>Categoría:</strong> {product.category}</p>
+              <p><strong>Stock:</strong> {product.stock}</p>
+              <p><strong>Entradas:</strong> {product.receipts.join(", ")}</p>
             </div>
-        </div>
+          </div>
         </>
-    );
+      );
 };
+      
 export default ProductoDetalle;

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useProductos from "../../shared/hooks/useProductos";
 import useDeleteProduct from "../../shared/hooks/useDeleteProduct";
 import Navbar from "../navs/Navbar";
+import "../productos/producto.css"
 
 const DeleteProducto = () => {
   const { productos, loading, error } = useProductos();
@@ -23,7 +24,7 @@ const DeleteProducto = () => {
 
     await deleteProduct(selectedProductId);
     alert("Producto eliminado correctamente.");
-    navigate(0); 
+    navigate(0);
   };
 
   if (loading) return <p>Cargando productos...</p>;
@@ -34,18 +35,20 @@ const DeleteProducto = () => {
   return (
     <>
       <Navbar />
-      <div>
-        <h1>Eliminar Producto</h1>
+      <div className="form-container">
+        <h1 className="form-title">Eliminar Producto</h1>
         {productosActivos.length === 0 ? (
-          <p>No hay productos disponibles para eliminar.</p>
+          <p className="form-empty">No hay productos disponibles para eliminar.</p>
         ) : (
-          <div style={{ marginBottom: "1rem" }}>
-            <label htmlFor="producto-select">Selecciona un producto:</label>
+          <div className="form-content">
+            <label htmlFor="producto-select" className="form-label">
+              Selecciona un producto:
+            </label>
             <select
               id="producto-select"
               value={selectedProductId}
               onChange={(e) => setSelectedProductId(e.target.value)}
-              style={{ marginLeft: "0.5rem" }}
+              className="form-select"
             >
               <option value="">-- Selecciona --</option>
               {productosActivos.map((producto) => (
@@ -54,11 +57,10 @@ const DeleteProducto = () => {
                 </option>
               ))}
             </select>
-            <br />
             <button
               onClick={handleDelete}
               disabled={isLoadingDelete || !selectedProductId}
-              style={{ marginTop: "1rem" }}
+              className="form-button"
             >
               {isLoadingDelete ? "Eliminando..." : "Eliminar Producto"}
             </button>
@@ -69,4 +71,4 @@ const DeleteProducto = () => {
   );
 };
 
-export default DeleteProducto;
+  export default DeleteProducto;

@@ -13,6 +13,8 @@ import { useLocation } from "react-router-dom";
 import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
 import Navbar from "../../components/navs/Navbar";
 import "../../pages/productos/dashboardProductos.css";
+import "../productos/producto.css"
+
 
 const initialFormState = {
     name: { value: "", isValid: false, showError: false },
@@ -129,49 +131,49 @@ export const RegisterProducto = () => {
         !formState.description.isValid ||
         !formState.category.isValid;
 
-    return (
-        <>
-            <Navbar />
-            <Flex className="flex-container">
+        return (
+            <>
+              <Navbar />
+              <Flex className="flex-container">
                 <Stack className="stack-container">
-                    <Stack className="heading-container">
-                        <Text className="heading-title">
-                            {esEdicion ? "Editar Producto" : "Registrar Producto"}
-                        </Text>
-                    </Stack>
-                    <Box className="box-container">
-                        <Stack className="form-stack">
-                            <form onSubmit={handleSubmit}>
-                                {Object.entries(formState).map(([field, state]) => (
-                                    <Input
-                                        key={field}
-                                        field={field}
-                                        label={field.charAt(0).toUpperCase() + field.slice(1)}
-                                        value={state.value}
-                                        onChangeHandler={handleInputValueChange}
-                                        type={field === 'price' || field === 'stock' ? 'number' : 'text'}
-                                        onBlurHandler={handleInputValidationOnBlur}
-                                        showErrorMessage={state.showError}
-                                        validationMessage={validationMessages[field]}
-                                        className="input-field"
-                                    />
-                                ))}
-                                <Stack className="button-stack">
-                                    <Button
-                                        className="sign-in-button"
-                                        disabled={isSubmitDisabled}
-                                        onClick={handleSubmit}
-                                    >
-                                        {esEdicion ? "Guardar Cambios" : "Registrar"}
-                                    </Button>
-                                </Stack>
-                            </form>
+                  <Stack className="heading-container">
+                    <Text className="heading-title">
+                      {esEdicion ? "Editar Producto" : "Registrar Producto"}
+                    </Text>
+                  </Stack>
+                  <Box className="box-container">
+                    <Stack className="form-stack">
+                      <form onSubmit={handleSubmit} className="form">
+                        {Object.entries(formState).map(([field, state]) => (
+                          <Input
+                            key={field}
+                            field={field}
+                            label={field.charAt(0).toUpperCase() + field.slice(1)}
+                            value={state.value}
+                            onChangeHandler={handleInputValueChange}
+                            type={field === 'price' || field === 'stock' ? 'number' : 'text'}
+                            onBlurHandler={handleInputValidationOnBlur}
+                            showErrorMessage={state.showError}
+                            validationMessage={validationMessages[field]}
+                            className="input-field"
+                          />
+                        ))}
+                        <Stack className="button-stack">
+                          <Button
+                            className="form-button"
+                            disabled={isSubmitDisabled}
+                            onClick={handleSubmit}
+                          >
+                            {esEdicion ? "Guardar Cambios" : "Registrar"}
+                          </Button>
                         </Stack>
-                    </Box>
+                      </form>
+                    </Stack>
+                  </Box>
                 </Stack>
-            </Flex>
-        </>
-    );
-};
+              </Flex>
+            </>
+          );
+};       
 
 export default RegisterProducto;
