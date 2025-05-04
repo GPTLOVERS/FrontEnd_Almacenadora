@@ -21,7 +21,7 @@ import UpdateProducto from "./components/productos/UpdateProducto";
 import BuyProduct from "./components/productos/BuyProduct";
 import BuscarProducto from "./components/productos/FindProducto";
 import DeleteProducto from "./components/productos/DeleteProducto";
-
+import RegisterBatch from "./components/batch/RegisterBatch";
 export const routes = [
     { path: "/auth", element: <LoginPage /> },
     { path: "/*", element: <Dashboard /> },
@@ -84,6 +84,11 @@ export const routes = [
     {
         path: "/productos/DeleteProducto", element: <ProtectedRoute allowedRoles={"ADMIN_ROLE"}>
             <DeleteProducto/>
+        </ProtectedRoute>
+    },
+    {
+        path: "/batch/register", element: <ProtectedRoute allowedRoles={["ADMIN_ROLE", "EMPLOYEE_ROLE"]}>
+            <RegisterBatch/>
         </ProtectedRoute>
     },
 ];

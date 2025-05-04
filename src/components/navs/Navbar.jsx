@@ -60,6 +60,7 @@ export const Navbar = () => {
     const handleGoToElimanarProductos = () => navigate("/productos/DeleteProducto");
     const handleGoToGetBatch = () => navigate("/batch/list");
     const hangleGoToShearBatch = () => navigate("/batch/search");
+    const handleGoToRegisterBatch = () => navigate("/batch/register")
     const handleLogout = () => logout();
 
     return (
@@ -101,7 +102,7 @@ export const Navbar = () => {
                                 Lotes
                                 {isDropdownOpen.batch && (
                                     <div className="dropdown-content">
-                                        <span onClick={handleGoToStats}>Agregar Lotes</span>
+                                        <span onClick={handleGoToRegisterBatch}>Agregar Lotes</span>
                                         <span onClick={handleGoToGetBatch}>Ver Lotes</span>
                                         <span onClick={hangleGoToShearBatch}>Buscar Lotes</span>
                                     </div>
