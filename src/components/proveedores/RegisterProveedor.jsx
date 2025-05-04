@@ -18,7 +18,7 @@ import { useUpdateProveedor } from "../../shared/hooks/useUpdateProveedor";
 import { useLocation } from "react-router-dom";
 import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
 import Navbar from "../navs/Navbar";
-import "../../pages/proveedores/dashboardProveedores.css";
+// import "../../pages/proveedores/dashboardProveedores.css";
 import "../../assets/style.css";
 
 const initialFormState = {
