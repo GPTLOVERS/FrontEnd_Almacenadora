@@ -12,8 +12,7 @@ import useGetProducto from "../../shared/hooks/useGetProducto";
 import useProductos from "../../shared/hooks/useProductos";
 import { useNavigate } from "react-router-dom";
 // import "../../pages/productos/dashboardProductos.css";
-import "../productos/producto.css"
-
+import "../../assets/style.css";
 
 export const BuscarProducto = () => {
     const [selectedId, setSelectedId] = useState("");
@@ -34,7 +33,7 @@ export const BuscarProducto = () => {
     return (
         <>
           <Navbar />
-          <div className=".form-container">
+          <div className="form-container">
             <Stack className="form-container" spacing={6}>
               <Stack>
                 <Text className="form-title">Buscar Producto</Text>

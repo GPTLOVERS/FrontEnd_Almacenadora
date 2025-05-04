@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useProductos from "../../shared/hooks/useProductos";
 import useDeleteProduct from "../../shared/hooks/useDeleteProduct";
 import Navbar from "../navs/Navbar";
-import "../productos/producto.css"
+import "../../assets/style.css";
 
 const DeleteProducto = () => {
   const { productos, loading, error } = useProductos();

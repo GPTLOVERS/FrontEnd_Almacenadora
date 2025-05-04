@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import Input from "../settings/Input";
 import { useBuyProduct } from "../../shared/hooks/useBuyProduct";
 import useProductos from "../../shared/hooks/useProductos";
-import "../productos/producto.css"
+import "../../assets/style.css"
+
 
 import {
     Flex,

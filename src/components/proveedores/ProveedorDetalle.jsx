@@ -1,8 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import useGetProveedor from "../../shared/hooks/useGetProveedor";
-import "./proveedor.css";
+import "../../assets/style.css"
 import Navbar from "../navs/Navbar";
+
 const ProveedorDetalle = () => {
     const { id } = useParams(); 
     const { proveedor, loading, error } = useGetProveedor(id);
@@ -13,26 +14,27 @@ const ProveedorDetalle = () => {
 
     return (
         <>
-        <Navbar/>
-        <div className="proveedor-detalle-container">
-            <h1 className="proveedor-title">Detalles del Proveedor</h1>
-            <div className="proveedor-info">
-                <h2 className="proveedor-name">{proveedor.name}</h2>
-                <p><strong>Compañía:</strong> {proveedor.company}</p>
-                <p><strong>Email:</strong> {proveedor.email}</p>
-                <p><strong>Teléfono:</strong> {proveedor.phone}</p>
-                <p><strong>Dirección:</strong> {proveedor.address}</p>
+            <Navbar />
+            <div className="detail-container">
+                <h1 className="detail-title">Detalles del Proveedor</h1>
+                <div className="detail-info">
+                    <h2 className="detail-name">{proveedor.name}</h2>
+                    <p><strong>Compañía:</strong> {proveedor.company}</p>
+                    <p><strong>Email:</strong> {proveedor.email}</p>
+                    <p><strong>Teléfono:</strong> {proveedor.phone}</p>
+                    <p><strong>Dirección:</strong> {proveedor.address}</p>
+                </div>
+    
+                <h3 className="productos-title">Productos:</h3>
+                <ul className="productos-list">
+                    {proveedor.products.map((product, index) => (
+                        <li className="producto" key={index}>{product}</li>
+                    ))}
+                </ul>
             </div>
-
-            <h3 className="productos-title">Productos:</h3>
-            <ul className="productos-list">
-                {proveedor.products.map((product, index) => (
-                    <li className="producto-item" key={index}>{product}</li>
-                ))}
-            </ul>
-        </div>
         </>
     );
+    
 };
 
 export default ProveedorDetalle;

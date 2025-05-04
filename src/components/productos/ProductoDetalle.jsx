@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import useGetProducto from "../../shared/hooks/useGetProducto.jsx";
-import "./producto.css";
+import "../../assets/style.css";
 import Navbar from "../navs/Navbar";
 
 const ProductoDetalle = () => {

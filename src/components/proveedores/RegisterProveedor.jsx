@@ -19,6 +19,7 @@ import { useLocation } from "react-router-dom";
 import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
 import Navbar from "../navs/Navbar";
 import "../../pages/proveedores/dashboardProveedores.css";
+import "../../assets/style.css";
 
 const initialFormState = {
     name: { value: "", isValid: false, showError: false },
@@ -34,7 +35,7 @@ export const RegisterProveedor = () => {
     const esEdicion = Boolean(proveedor);
 
     const { register, isLoading } = useRegisterProveedor();
-    const {update, isLoadingUpdate} = useUpdateProveedor()
+    const { update, isLoadingUpdate } = useUpdateProveedor()
 
     const [formState, setFormState] = useState(() => {
         if (esEdicion) {
@@ -145,7 +146,7 @@ export const RegisterProveedor = () => {
                     </Stack>
                     <Box className="box-container">
                         <Stack className="form-stack">
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit} className="form">
                                 <Input
                                     field="name"
                                     label="Nombre"
@@ -203,7 +204,7 @@ export const RegisterProveedor = () => {
                                 />
                                 <Stack className="button-stack">
                                     <Button
-                                        className="sign-in-button"
+                                        className="form-button"
                                         disabled={isSubmitDisabled}
                                         onClick={handleSubmit}
                                     >

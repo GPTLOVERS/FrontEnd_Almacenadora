@@ -2,6 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useProductos from '../../shared/hooks/useProductos';
 import Navbar from '../navs/Navbar';
+import "../../assets/style.css";
+
+
 const DashboardProductos = () => {
     const { productos, loading, error } = useProductos();
     const navigate = useNavigate();
