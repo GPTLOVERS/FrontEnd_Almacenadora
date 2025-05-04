@@ -2,6 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useProductos from '../../shared/hooks/useProductos';
 import Navbar from '../navs/Navbar';
+import "../../assets/style.css";
+
+
 const DashboardProductos = () => {
     const { productos, loading, error } = useProductos();
     const navigate = useNavigate();
@@ -15,27 +18,31 @@ const DashboardProductos = () => {
 
     return (
         <>
-        <Navbar/>
-        <div>
-            <h1>Productos</h1>
-            <div className="productos-list">
-                {productos.length === 0 ? (
-                    <p>No hay productos disponibles.</p>
-                ) : (
-                    productos.map((producto, index) => (
-                        <div className="producto" key={index}>
-                            <h3>{producto.name}</h3>
-                            <p>${producto.price}</p>
-                            <button onClick={() => navigate(`/productos/${producto.uid}`)}>
-                                Ver detalles
-                            </button>
-                        </div>
-                    ))
-                )}
+            <Navbar />
+            <div className="productos-container">
+                <h1 className="productos-title">Productos</h1>
+                <div className="productos-list">
+                    {productos.length === 0 ? (
+                        <p className="empty-text">No hay productos disponibles.</p>
+                    ) : (
+                        productos.map((producto, index) => (
+                            <div className="producto" key={index}>
+                                <h3 className="producto-name">{producto.name}</h3>
+                                <p className="producto-price">${producto.price}</p>
+                                <p className="producto-category">{producto.category}</p>
+                                <button 
+                                    className="producto-button" 
+                                    onClick={() => navigate(`/productos/${producto.uid}`)}
+                                >
+                                    Ver detalles
+                                </button>
+                            </div>
+                        ))
+                    )}
+                </div>
             </div>
-        </div>
         </>
-    );
+    );    
 };
 
 export default DashboardProductos;

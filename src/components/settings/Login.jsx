@@ -65,12 +65,11 @@ export const Login = ({ switchAuthHandler }) => {
 
     const isSubmitDisabled =
         isLoading || !formState.email.isValid || !formState.password.isValid;
-
     return (
-        <Flex className="flex-container">
+        <Flex className="auth-container">
             <Stack className="stack-container">
                 <Stack className="heading-container">
-                    <Text className="heading-title">Inicio de sesión</Text>
+                    <Text className="heading-title">INICIO DE SESIÓN</Text>
                 </Stack>
                 <Box className="box-container">
                     <Stack className="form-stack">

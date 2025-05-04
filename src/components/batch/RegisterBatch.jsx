@@ -16,6 +16,10 @@ import {
 } from '../../shared/validators';
 import Navbar from '../navs/Navbar';
 import Input from '../settings/Input';
+import "../../assets/style.css"
+
+
+
 const initialFormState = {
     noBatch: { value: '', isValid: false, showError: false },
     type: { value: '', isValid: false, showError: false },
