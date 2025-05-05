@@ -4,14 +4,16 @@ import { registerBatch as registerRequest } from "../../services/api";
 
 export const useRegisterBatch = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const registerBatch = async (noBatch, type, dateOfEntry, stockEntry) => {
+    const registerBatch = async (noBatch, type,stockEntry,product,proveedor, dateOfEntry) => {
         setIsLoading(true);
         try {
             const response = await registerRequest({
                 noBatch,
                 type,
-                dateOfEntry,
-                stockEntry
+                stockEntry,
+                product,
+                proveedor,
+                dateOfEntry
             });
             console.log(response);
             setIsLoading(false);

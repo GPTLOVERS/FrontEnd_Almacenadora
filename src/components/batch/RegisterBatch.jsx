@@ -1,12 +1,10 @@
-import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, Text, Select } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../../pages/batch/dashboardBatch.css';
 import { useRegisterBatch } from '../../shared/hooks/useRegisterBatch';
 import { useUpdateBatch } from '../../shared/hooks/useUpdateBatch';
 import {
-    validateDateOfEntry,
-    validateDateOfEntryMessage,
     validateNoBatch,
     validateNoBatchMessage,
     validateStockEntry,
@@ -16,11 +14,16 @@ import {
 } from '../../shared/validators';
 import Navbar from '../navs/Navbar';
 import Input from '../settings/Input';
+import useProductos from '../../shared/hooks/useProductos';
+import useProveedores from '../../shared/hooks/useProveedores';
+
 const initialFormState = {
     noBatch: { value: '', isValid: false, showError: false },
     type: { value: '', isValid: false, showError: false },
-    dateOfEntry: { value: '', isValid: false, showError: false },
+    dateOfEntry: { value: '', isValid: true, showError: false },
     stockEntry: { value: '', isValid: false, showError: false },
+    product: { value: '', isValid: false, showError: false },
+    proveedor: { value: '', isValid: false, showError: false },
 };
 
 export const RegisterBatch = () => {
@@ -31,13 +34,24 @@ export const RegisterBatch = () => {
     const { register, isLoading } = useRegisterBatch();
     const { update, isLoadingUpdate } = useUpdateBatch();
 
+    const { productos, loadingProductos } = useProductos();
+    const { proveedores, loadingProveedores } = useProveedores();
+
     const [formState, setFormState] = useState(() => {
         if (esEdicion) {
             return {
                 noBatch: { value: batch.noBatch || '', isValid: true, showError: false },
                 type: { value: batch.type || '', isValid: true, showError: false },
-                dateOfEntry: { value: batch.dateOfEntry || '', isValid: true, showError: false },
+                dateOfEntry: {
+                    value: batch.dateOfEntry
+                        ? new Date(batch.dateOfEntry).toISOString().slice(0, 10)
+                        : '',
+                    isValid: true,
+                    showError: false,
+                },
                 stockEntry: { value: batch.stockEntry || '', isValid: true, showError: false },
+                product: { value: batch.product?.id || '', isValid: true, showError: false },
+                proveedor: { value: batch.proveedor?.id || '', isValid: true, showError: false },
             };
         }
         return initialFormState;
@@ -62,14 +76,14 @@ export const RegisterBatch = () => {
             case 'type':
                 isValid = validateType(value);
                 break;
-            case 'dateOfEntry':
-                isValid = validateDateOfEntry(value);
-                break;
             case 'stockEntry':
                 isValid = validateStockEntry(value);
                 break;
-            default:
+            case 'product':
+                isValid = !!value;
                 break;
+            default:
+                isValid = true;
         }
         setFormState((prevState) => ({
             ...prevState,
@@ -84,40 +98,23 @@ export const RegisterBatch = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
+            const noBatch = formState.noBatch.value;
+            const type = formState.type.value;
+            const stockEntry = formState.stockEntry.value;
+            const product = formState.product.value;
+            const proveedor = formState.proveedor.value;
+            const dateOfEntry = formState.dateOfEntry.value;
+
             if (esEdicion) {
-                console.log('actualizando lote:', {
-                    id: batch.id,
-                    noBatch: formState.noBatch.value,
-                    type: formState.type.value,
-                    dateOfEntry: formState.dateOfEntry.value,
-                    stockEntry: formState.stockEntry.value,
-                });
-                await update(
-                    formState.noBatch.value,
-                    formState.type.value,
-                    formState.dateOfEntry.value,
-                    formState.stockEntry.value,
-                    batch.id
-                );
+                await update(noBatch, type, stockEntry, product, proveedor, dateOfEntry, batch.id);
             } else {
-                await register(
-                    formState.noBatch.value,
-                    formState.type.value,
-                    formState.dateOfEntry.value,
-                    formState.stockEntry.value
-                );
+                await register(noBatch, type, stockEntry, product, proveedor, dateOfEntry);
                 setFormState(initialFormState);
             }
         } catch (error) {
             console.error('Error al guardar el lote:', error);
         }
-    }
-    const isSubmitDisabled =
-        (isLoading || isLoadingUpdate) ||
-        !formState.noBatch.isValid ||
-        !formState.type.isValid ||
-        !formState.dateOfEntry.isValid ||
-        !formState.stockEntry.isValid;
+    };
 
     return (
         <>
@@ -126,7 +123,7 @@ export const RegisterBatch = () => {
                 <Stack className="stack-container">
                     <Stack className="heading-container">
                         <Text className="heading-title">
-                            {esEdicion ? "Editar Lote" : "Registrar Lote"}
+                            {esEdicion ? 'Editar Lote' : 'Registrar Lote'}
                         </Text>
                     </Stack>
                     <Box className="box-container">
@@ -154,15 +151,44 @@ export const RegisterBatch = () => {
                                     validationMessage={validateTypeMessage}
                                     className="input-field"
                                 />
+                                <Text mt={4} mb={1}>Ingresar producto:</Text>
+                                <Select
+                                    placeholder="Seleccionar producto"
+                                    value={formState.product.value}
+                                    onChange={(e) => handleInputValueChange(e.target.value, 'product')}
+                                    onBlur={() => handleInputValidationOnBlur(formState.product.value, 'product')}
+                                >
+                                    {loadingProductos ? (
+                                        <option disabled>Cargando productos...</option>
+                                    ) : (
+                                        productos.map((prod) => (
+                                            <option key={prod.uid} value={prod.uid}>{prod.name}</option>
+                                        ))
+                                    )}
+                                </Select>
+                                <Text mt={4} mb={1}>Ingresar proveedor:</Text>
+                                <Select
+                                    placeholder="Seleccionar proveedor"
+                                    value={formState.proveedor.value}
+                                    onChange={(e) => handleInputValueChange(e.target.value, 'proveedor')}
+                                    onBlur={() => handleInputValidationOnBlur(formState.proveedor.value, 'proveedor')}
+                                >
+                                    {loadingProveedores ? (
+                                        <option disabled>Cargando proveedores...</option>
+                                    ) : (
+                                        proveedores.map((proveedor) => (
+                                            <option key={proveedor.uid} value={proveedor.uid}>{proveedor.name}</option>
+                                        ))
+                                    )}
+                                </Select>
                                 <Input
                                     field="dateOfEntry"
                                     label="Fecha de Entrada"
                                     value={formState.dateOfEntry.value}
                                     onChangeHandler={handleInputValueChange}
                                     type="date"
-                                    onBlurHandler={handleInputValidationOnBlur}
-                                    showErrorMessage={formState.dateOfEntry.showError}
-                                    validationMessage={validateDateOfEntryMessage}
+                                    onBlurHandler={() => { }}
+                                    showErrorMessage={false}
                                     className="input-field"
                                 />
                                 <Input
@@ -176,15 +202,17 @@ export const RegisterBatch = () => {
                                     validationMessage={validateStockEntryMessage}
                                     className="input-field"
                                 />
-                                <Stack className="button-stack">
+                                <Flex justify="center" align="center">
                                     <Button
-                                        className="sign-in-button"
-                                        disabled={isSubmitDisabled}
-                                        onClick={handleSubmit}
+                                        type="submit"
+                                        colorScheme="teal"
+                                        size="lg"
+                                        isLoading={isLoading || isLoadingUpdate}
+                                        className="submit-button"
                                     >
-                                        {esEdicion ? "Guardar Cambios" : "Registrar"}
+                                        {esEdicion ? 'Actualizar Lote' : 'Registrar Lote'}
                                     </Button>
-                                </Stack>
+                                </Flex>
                             </form>
                         </Stack>
                     </Box>
@@ -194,4 +222,4 @@ export const RegisterBatch = () => {
     );
 };
 
-export default RegisterBatch
+export default RegisterBatch;
