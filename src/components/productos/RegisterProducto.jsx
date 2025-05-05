@@ -12,7 +12,6 @@ import { useUpdateProducto } from "../../shared/hooks/useUpdateProducto";
 import { useLocation } from "react-router-dom";
 import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
 import Navbar from "../../components/navs/Navbar";
-import "../../pages/productos/dashboardProductos.css";
 import "../../assets/style.css"
 
 const initialFormState = {
