@@ -1,7 +1,6 @@
 import { Box, Button, Flex, Stack, Text, Select } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import '../../pages/batch/dashboardBatch.css';
 import { useRegisterBatch } from '../../shared/hooks/useRegisterBatch';
 import { useUpdateBatch } from '../../shared/hooks/useUpdateBatch';
 import {
@@ -16,6 +15,7 @@ import Navbar from '../navs/Navbar';
 import Input from '../settings/Input';
 import useProductos from '../../shared/hooks/useProductos';
 import useProveedores from '../../shared/hooks/useProveedores';
+import "../../assets/style.css"
 
 const initialFormState = {
     noBatch: { value: '', isValid: false, showError: false },

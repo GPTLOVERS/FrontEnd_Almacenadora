@@ -1,8 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import useGetBatchById from "../../shared/hooks/useGetBatchById";
-import "./batch.css";
 import Navbar from "../navs/Navbar";
+import "../../assets/style.css"
+
 const BatchDetalle = () => {
     const { id } = useParams();
     const { batch, loading, error } = useGetBatchById(id);
@@ -14,10 +15,10 @@ const BatchDetalle = () => {
     return (
         <>
             <Navbar />
-            <div className="proveedor-detalle-container">
-                <h1 className="proveedor-title">Detalles del Lote</h1>
-                <div className="proveedor-info">
-                    <h2 className="proveedor-name">{`Número de Lote: ${batch.noBatch}`}</h2>
+            <div className="detail-container">
+                <h1 className="detail-title">Detalles del Lote</h1>
+                <div className="detail-info">
+                    <h2 className="detail-name">{`Número de Lote: ${batch.noBatch}`}</h2>
                     <p><strong>Tipo:</strong> {batch.type}</p>
                     <p><strong>Entrada:</strong> {new Date(batch.dateOfEntry).toLocaleDateString()}</p>
                     <p><strong>Stock de entrada:</strong> {batch.stockEntry}</p>

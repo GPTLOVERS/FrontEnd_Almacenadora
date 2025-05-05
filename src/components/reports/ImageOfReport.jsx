@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Navbar from "../../components/navs/Navbar";
 import { useReportImage } from "../../shared/hooks/useReportImage";
+import "../../assets/style.css";
+
+
 
 const ImageOfReport = () => {
     const [option, setOption] = useState("");
@@ -12,14 +15,14 @@ const ImageOfReport = () => {
             fetchReport(optionObj);
         }
     };
-
+    
     return (
         <>
             <Navbar />
-            <div style={{ textAlign: "center", marginTop: "2rem" }}>
-                <fieldset>
-                    <legend>Tipo de reporte (elige uno):</legend>
-                    <label>
+            <div className="report-container">
+                <fieldset className="form-fieldset">
+                    <legend className="form-legend">Tipo de reporte (elige uno):</legend>
+                    <label className="form-label">
                         <input
                             type="radio"
                             name="reportType"
@@ -29,8 +32,7 @@ const ImageOfReport = () => {
                         />
                         Productos Más Vendidos
                     </label>
-                    <br />
-                    <label>
+                    <label className="form-label">
                         <input
                             type="radio"
                             name="reportType"
@@ -41,32 +43,34 @@ const ImageOfReport = () => {
                         Actividad por Fecha
                     </label>
                 </fieldset>
-
-                <div style={{ marginTop: "1rem" }}>
-                    <button onClick={handleGenerate} disabled={!option || loading}>
+    
+                <div className="button-stack">
+                    <button
+                        onClick={handleGenerate}
+                        disabled={!option || loading}
+                        className="form-button"
+                    >
                         {imgsv ? "Actualizar" : "Generar"}
                     </button>
                 </div>
-
-                {loading && <p>Cargando gráfico...</p>}
-
+    
+                {loading && <p className="form-loading">Cargando gráfico...</p>}
+    
                 {errorMsg && (
-                    <p style={{ color: "red", marginTop: "1rem" }}>{errorMsg}</p>
+                    <p className="error-message">{errorMsg}</p>
                 )}
-
+    
                 {imgsv && !loading && (
-                    <div style={{ marginTop: "1rem" }}>
+                    <div className="report-image-container">
                         <img
                             src={imgsv}
                             alt="Reporte dinámico"
-                            style={{ maxWidth: "100%", height: "auto" }}
+                            className="report-image"
                         />
                     </div>
                 )}
             </div>
         </>
     );
-    
-};
-
+};    
 export default ImageOfReport;

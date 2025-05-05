@@ -9,8 +9,10 @@ import {
 } from "@chakra-ui/react";
 import Navbar from "../navs/Navbar";
 import useGetBatch from "../../shared/hooks/useGetBatch";
-import "../../pages/proveedores/dashboardProveedores.css";
+// import "../../pages/proveedores/dashboardProveedores.css";
 import { useNavigate } from "react-router-dom";
+import "../../assets/style.css"
+
 
 export const FindBatch = () => {
     const [selectedBatchId, setSelectedBatchId] = useState("");
@@ -34,12 +36,14 @@ export const FindBatch = () => {
             <Flex className="flex-container">
                 <Stack className="stack-container">
                     <Stack className="heading-container">
-                        <Text className="heading-title">Buscar Lote</Text>
+                        <Text className="form-title">Buscar Lote</Text>
                     </Stack>
-                    <Box className="box-container">
+                    <Box className="form-container">
                         <form onSubmit={handleBuscar}>
                             <Stack spacing={4} className="form-stack">
                                 <Select
+                                                                    className="form-select"
+
                                     placeholder="Selecciona un lote"
                                     value={selectedBatchId}
                                     onChange={(e) => setSelectedBatchId(e.target.value)}

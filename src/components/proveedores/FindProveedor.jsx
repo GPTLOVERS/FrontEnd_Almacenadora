@@ -11,6 +11,7 @@ import Navbar from "../navs/Navbar";
 import useGetProveedor from "../../shared/hooks/useGetProveedor";
 import useProveedores from "../../shared/hooks/useProveedores"; // hook para llenar combo
 import { useNavigate } from "react-router-dom";
+import "../../assets/style.css"
 
 export const BuscarProveedor = () => {
     const [selectedId, setSelectedId] = useState("");
@@ -35,50 +36,49 @@ export const BuscarProveedor = () => {
             <Flex className="flex-container">
                 <Stack className="stack-container">
                     <Stack className="heading-container">
-                        <Text className="heading-title">Buscar Proveedor</Text>
+                        <Text className="form-title">Buscar Proveedor</Text>
                     </Stack>
-                    <Box className="box-container">
-                        <form onSubmit={handleBuscar}>
-                            <Stack spacing={4} className="form-stack">
-                                <Select
-                                    placeholder="Selecciona un proveedor"
+                    <Box className="form-container">
+                        <form onSubmit={handleBuscar} className="form">
+                            <Stack className="form-stack">
+                                <label className="form-label">Proveedor</label>
+                                <select
+                                    className="form-select"
                                     value={selectedId}
                                     onChange={(e) => setSelectedId(e.target.value)}
-                                    isDisabled={loadingProveedores}
+                                    disabled={loadingProveedores}
                                 >
+                                    <option value="">Selecciona un proveedor</option>
                                     {proveedores.map((prov) => (
                                         <option key={prov._id} value={prov._id}>
                                             {prov.name} - {prov.nit}
                                         </option>
                                     ))}
-                                </Select>
-                                <Button
-                                    type="submit"
-                                    colorScheme="blue"
-                                    isLoading={loading}
-                                >
-                                    Buscar
-                                </Button>
+                                </select>
+    
+                                <Stack className="button-stack">
+                                    <button
+                                        type="submit"
+                                        className="form-button"
+                                        disabled={loading}
+                                    >
+                                        {loading ? "Buscando..." : "Buscar"}
+                                    </button>
+                                </Stack>
                             </Stack>
                         </form>
-
+    
                         {proveedor && (
                             <Box mt={4}>
                                 <Text fontWeight="bold">Resultado:</Text>
-                                <pre>{JSON.stringify(proveedor, null, 2)}</pre>
+                                <pre >{JSON.stringify(proveedor, null, 2)}</pre>
                             </Box>
-                        )}
-
-                        {error && (
-                            <Text color="red.500" mt={2}>
-                                {error}
-                            </Text>
                         )}
                     </Box>
                 </Stack>
             </Flex>
         </>
     );
-};
+};    
 
 export default BuscarProveedor;
